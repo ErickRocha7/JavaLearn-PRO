@@ -80,6 +80,15 @@ const ContentRenderer = {
     </div>`;
   },
 
+  // Calcula dinamicamente o total de subcapítulos
+  _calcularTotalAulas() {
+    let total = 0;
+    for (const cap of cursoJavaEstrutura) {
+      total += cap.subcapitulos.length;
+    }
+    return total;
+  },
+
   renderizar(subcapituloId) {
     const container = document.getElementById('conteudo-aula');
     const dados = this.encontrarDadosSubcapitulo(subcapituloId);
@@ -96,7 +105,7 @@ const ContentRenderer = {
       }
       if (dados.capituloId === cap.id) break;
     }
-    const totalAulas = 114;
+    const totalAulas = this._calcularTotalAulas();
     const percentual = Math.round((Store.obterProgresso().length / totalAulas) * 100);
 
     const exemploCodigo = 
