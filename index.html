@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaLearn PRO</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tela-oculta { display: none !important; }
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .seta-acordeao { transition: transform 0.3s ease; }
+    .capitulo-aberto .seta-acordeao { transform: rotate(180deg); }
+    #sidebar { scroll-behavior: smooth; }
+    .icone-check svg { transition: color 0.3s ease; }
+    .linha-conectora { transition: background-color 0.3s ease; }
+    .titulo-subcapitulo { transition: color 0.3s ease; }
+
+    .monokai-bg { background-color: #272822; }
+    .monokai-keyword { color: #F92672; }
+    .monokai-string { color: #E6DB74; }
+    .monokai-function { color: #A6E22E; }
+    .monokai-type { color: #66D9EF; }
+    .monokai-variable { color: #FD971F; }
+    .monokai-comment { color: #75715E; font-style: italic; }
+    .monokai-number { color: #AE81FF; }
+
+    pre::-webkit-scrollbar { height: 6px; }
+    pre::-webkit-scrollbar-track { background: #1e1f1c; border-radius: 3px; }
+    pre::-webkit-scrollbar-thumb { background: #555; border-radius: 3px; }
+    pre::-webkit-scrollbar-thumb:hover { background: #888; }
+
+    .lista-subcapitulos {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .lista-subcapitulos.expandido {
+      max-height: 3000px;
+    }
+
+    @media (max-width: 768px) {
+      #sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+        z-index: 50;
+        box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+      }
+      #sidebar.mobile-aberto {
+        transform: translateX(0);
+      }
+      main {
+        margin-left: 0 !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      .botoes-navegacao {
+        left: 0 !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+      #btn-hamburger {
+        display: block !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen">
+
+  <!-- TELA DE LOGIN -->
+  <div id="tela-login" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-800 to-slate-900 p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 sm:p-10">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-blue-600">JavaLearn PRO</h1>
+        <p class="text-slate-500 text-sm mt-2">Faça login para continuar seus estudos</p>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label for="email" class="block text-sm font-medium text-slate-700 mb-1">E-mail</label>
+          <input type="email" id="email" placeholder="seu@email.com" class="w-full border border-slate-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" autocomplete="email">
+        </div>
+        <div>
+          <label for="senha" class="block text-sm font-medium text-slate-700 mb-1">Senha</label>
+          <input type="password" id="senha" placeholder="Sua senha" class="w-full border border-slate-300 rounded-lg px-4 py-3 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition" autocomplete="current-password">
+        </div>
+        <div id="erro-login" class="text-red-500 text-sm hidden">E-mail ou senha incorretos.</div>
+        <button id="btn-entrar" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition shadow-md">Entrar</button>
+      </div>
+      <p class="text-xs text-slate-400 text-center mt-6">Use: admin@email.com / 123456</p>
+    </div>
+  </div>
+
+  <!-- BOTÃO HAMBURGER MOBILE -->
+  <button id="btn-hamburger" class="hidden fixed top-3 left-4 z-50 p-2 bg-white rounded-lg shadow-md" aria-label="Abrir menu">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+  </button>
+
+  <!-- TELA DO CURSO -->
+  <div id="tela-curso" class="hidden min-h-screen flex flex-col">
+    <header class="fixed top-0 left-0 right-0 z-40 h-16 bg-white border-b border-slate-200 shadow-sm flex items-center justify-between px-6">
+      <div class="flex items-center gap-2">
+        <span class="text-xl font-bold text-blue-600">&lt;/&gt; JavaLearn PRO</span>
+      </div>
+      <div class="flex-1 max-w-xl mx-auto relative hidden sm:block">
+        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </span>
+        <input type="text" placeholder="Pesquisar assunto..." class="w-full bg-slate-100 rounded-lg pl-10 pr-4 py-2 text-sm text-slate-700 outline-none focus:ring-2 focus:ring-blue-500 transition" disabled>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-semibold text-sm" id="avatar-iniciais">JS</div>
+        <span id="nome-usuario" class="text-slate-700 font-medium text-sm hidden sm:block">João Silva</span>
+        <button id="btn-sair" class="text-slate-500 hover:text-red-600 text-sm font-medium transition">Sair</button>
+      </div>
+    </header>
+
+    <div class="flex pt-16 min-h-screen">
+      <aside id="sidebar" class="fixed top-16 left-0 w-80 h-[calc(100vh-4rem)] bg-white border-r border-slate-200 overflow-y-auto z-30"></aside>
+      <main class="ml-80 flex-1 p-8 min-h-[calc(100vh-4rem)] pb-20">
+        <div id="conteudo-aula" class="max-w-3xl mx-auto">
+          <div class="flex flex-col items-center justify-center py-20 text-center">
+            <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-slate-700 mb-2">Bem-vindo ao JavaLearn PRO</h3>
+            <p class="text-slate-500">Selecione uma aula no menu lateral para começar.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="botoes-navegacao fixed bottom-0 left-80 right-0 bg-white border-t border-slate-200 py-3 px-8 flex justify-between z-20 shadow-md">
+      <button id="btn-anterior" class="px-5 py-2.5 rounded-lg bg-slate-100 text-slate-700 font-medium hover:bg-slate-200 transition disabled:opacity-50 disabled:cursor-not-allowed">← Aula Anterior</button>
+      <button id="btn-proximo" class="px-6 py-2.5 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed">Próxima Aula →</button>
+    </div>
+  </div>
+
+  <!-- DADOS DO CURSO -->
+  <script>
+    const cursoJavaEstrutura = [
+      { id: "cap-1", titulo: "1. Introdução a aplicativos Java – entrada/saída e operadores", subcapitulos: [
+        { id: "sub-1-1", titulo: "1.1 Visão Geral do Java e Configuração do Ambiente" },
+        { id: "sub-1-2", titulo: "1.2 Primeiro Programa: Hello World em Java" },
+        { id: "sub-1-3", titulo: "1.3 Entrada e Saída com Scanner e System.out" },
+        { id: "sub-1-4", titulo: "1.4 Operadores Aritméticos e de Atribuição" },
+        { id: "sub-1-5", titulo: "1.5 Operadores Relacionais e Lógicos Básicos" },
+        { id: "sub-1-6", titulo: "1.6 Estudo de Caso: Calculadora Simples" }
+      ]},
+      { id: "cap-2", titulo: "2. Introdução a classes, objetos, métodos e strings", subcapitulos: [
+        { id: "sub-2-1", titulo: "2.1 Conceitos de Classe e Objeto" },
+        { id: "sub-2-2", titulo: "2.2 Declaração de Classes e Instanciação" },
+        { id: "sub-2-3", titulo: "2.3 Métodos: Definição, Parâmetros e Retorno" },
+        { id: "sub-2-4", titulo: "2.4 Construtores e Sobrecarga" },
+        { id: "sub-2-5", titulo: "2.5 Manipulação de Strings (Classe String)" },
+        { id: "sub-2-6", titulo: "2.6 Estudo de Caso: Cadastro de Alunos" }
+      ]},
+      { id: "cap-3", titulo: "3. Instruções de controle: parte 1; operadores de atribuição ++ e --", subcapitulos: [
+        { id: "sub-3-1", titulo: "3.1 Estruturas Condicionais: if, else if, else" },
+        { id: "sub-3-2", titulo: "3.2 Condições Aninhadas e Operador Ternário" },
+        { id: "sub-3-3", titulo: "3.3 Operadores de Incremento e Decremento" },
+        { id: "sub-3-4", titulo: "3.4 Laço de Repetição while" },
+        { id: "sub-3-5", titulo: "3.5 Laço for e Escopo de Variáveis" },
+        { id: "sub-3-6", titulo: "3.6 Estudo de Caso: Validação de Notas" }
+      ]},
+      { id: "cap-4", titulo: "4. Instruções de controle: parte 2; operadores lógicos", subcapitulos: [
+        { id: "sub-4-1", titulo: "4.1 Operadores Lógicos: AND, OR, NOT" },
+        { id: "sub-4-2", titulo: "4.2 Avaliação de Curto-Circuito" },
+        { id: "sub-4-3", titulo: "4.3 Laço do...while e Comparação com while" },
+        { id: "sub-4-4", titulo: "4.4 Comandos break e continue" },
+        { id: "sub-4-5", titulo: "4.5 Laços Aninhados" },
+        { id: "sub-4-6", titulo: "4.6 Estudo de Caso: Menu Interativo" }
+      ]},
+      { id: "cap-5", titulo: "5. Métodos: um exame mais profundo", subcapitulos: [
+        { id: "sub-5-1", titulo: "5.1 Modularização e Reutilização de Código" },
+        { id: "sub-5-2", titulo: "5.2 Passagem de Argumentos por Valor e Referência" },
+        { id: "sub-5-3", titulo: "5.3 Métodos static e Escopo de Classe" },
+        { id: "sub-5-4", titulo: "5.4 Recursão: Conceitos Iniciais" },
+        { id: "sub-5-5", titulo: "5.5 Boas Práticas: Coesão e Tamanho de Métodos" },
+        { id: "sub-5-6", titulo: "5.6 Estudo de Caso: Biblioteca de Funções Matemáticas" }
+      ]},
+      { id: "cap-6", titulo: "6. Arrays e ArrayLists", subcapitulos: [
+        { id: "sub-6-1", titulo: "6.1 Declaração e Inicialização de Arrays" },
+        { id: "sub-6-2", titulo: "6.2 Percorrendo Arrays com for e for-each" },
+        { id: "sub-6-3", titulo: "6.3 Arrays Multidimensionais" },
+        { id: "sub-6-4", titulo: "6.4 Introdução à Classe ArrayList" },
+        { id: "sub-6-5", titulo: "6.5 Métodos de ArrayList: add, remove, contains" },
+        { id: "sub-6-6", titulo: "6.6 Estudo de Caso: Lista de Tarefas Dinâmica" }
+      ]},
+      { id: "cap-7", titulo: "7. Classes e objetos: um exame mais profundo", subcapitulos: [
+        { id: "sub-7-1", titulo: "7.1 Encapsulamento e Modificadores de Acesso" },
+        { id: "sub-7-2", titulo: "7.2 Composição: Objetos como Atributos" },
+        { id: "sub-7-3", titulo: "7.3 Membros de Classe: static e final" },
+        { id: "sub-7-4", titulo: "7.4 Enums: Tipos Enumerados" },
+        { id: "sub-7-5", titulo: "7.5 Pacotes e Organização de Código" },
+        { id: "sub-7-6", titulo: "7.6 Estudo de Caso: Sistema Bancário Simplificado" }
+      ]},
+      { id: "cap-8", titulo: "8. Programação orientada a objetos: herança", subcapitulos: [
+        { id: "sub-8-1", titulo: "8.1 Conceitos Fundamentais de Herança" },
+        { id: "sub-8-2", titulo: "8.2 Superclasse, Subclasse e Palavra-chave extends" },
+        { id: "sub-8-3", titulo: "8.3 Sobrescrita de Métodos (@Override) e super" },
+        { id: "sub-8-4", titulo: "8.4 Construtores em Hierarquias de Herança" },
+        { id: "sub-8-5", titulo: "8.5 Classes Abstratas e Métodos Abstratos" },
+        { id: "sub-8-6", titulo: "8.6 Estudo de Caso: Sistema de Funcionários" }
+      ]},
+      { id: "cap-9", titulo: "9. Programação orientada a objetos: polimorfismo e interfaces", subcapitulos: [
+        { id: "sub-9-1", titulo: "9.1 Polimorfismo: Conceito e Aplicação" },
+        { id: "sub-9-2", titulo: "9.2 Interfaces: Definição e Implementação" },
+        { id: "sub-9-3", titulo: "9.3 Múltiplas Interfaces e Herança Múltipla" },
+        { id: "sub-9-4", titulo: "9.4 Interfaces vs Classes Abstratas" },
+        { id: "sub-9-5", titulo: "9.5 Métodos default em Interfaces (Java 8+)" },
+        { id: "sub-9-6", titulo: "9.6 Estudo de Caso: Animais e Comportamentos" }
+      ]},
+      { id: "cap-10", titulo: "10. Tratamento de exceção: um exame mais profundo", subcapitulos: [
+        { id: "sub-10-1", titulo: "10.1 Hierarquia de Exceções em Java" },
+        { id: "sub-10-2", titulo: "10.2 Blocos try-catch e finally" },
+        { id: "sub-10-3", titulo: "10.3 Lançando Exceções com throw e throws" },
+        { id: "sub-10-4", titulo: "10.4 Exceções Verificadas vs Não Verificadas" },
+        { id: "sub-10-5", titulo: "10.5 Criação de Exceções Personalizadas" },
+        { id: "sub-10-6", titulo: "10.6 Estudo de Caso: Validação Robusta de Dados" }
+      ]},
+      { id: "cap-11", titulo: "11. Strings, caracteres e expressões regulares", subcapitulos: [
+        { id: "sub-11-1", titulo: "11.1 Classe String: Métodos Essenciais" },
+        { id: "sub-11-2", titulo: "11.2 StringBuilder e StringBuffer" },
+        { id: "sub-11-3", titulo: "11.3 Classe Character e Manipulação de Char" },
+        { id: "sub-11-4", titulo: "11.4 Introdução a Expressões Regulares (Regex)" },
+        { id: "sub-11-5", titulo: "11.5 Classes Pattern e Matcher" },
+        { id: "sub-11-6", titulo: "11.6 Estudo de Caso: Validador de CPF e E-mail" }
+      ]},
+      { id: "cap-12", titulo: "12. Arquivos, fluxos e serialização de objetos", subcapitulos: [
+        { id: "sub-12-1", titulo: "12.1 Hierarquia de Streams em Java" },
+        { id: "sub-12-2", titulo: "12.2 Leitura e Escrita de Arquivos Texto" },
+        { id: "sub-12-3", titulo: "12.3 Fluxos Binários e Buffered" },
+        { id: "sub-12-4", titulo: "12.4 Serialização de Objetos (Interface Serializable)" },
+        { id: "sub-12-5", titulo: "12.5 Trabalhando com Path e Files (NIO)" },
+        { id: "sub-12-6", titulo: "12.6 Estudo de Caso: Sistema de Backup de Dados" }
+      ]},
+      { id: "cap-13", titulo: "13. Coleções genéricas", subcapitulos: [
+        { id: "sub-13-1", titulo: "13.1 Visão Geral do Framework de Coleções" },
+        { id: "sub-13-2", titulo: "13.2 List: ArrayList, LinkedList e Vector" },
+        { id: "sub-13-3", titulo: "13.3 Set: HashSet, TreeSet e LinkedHashSet" },
+        { id: "sub-13-4", titulo: "13.4 Map: HashMap, TreeMap e LinkedHashMap" },
+        { id: "sub-13-5", titulo: "13.5 Iteradores e o Padrão Iterator" },
+        { id: "sub-13-6", titulo: "13.6 Estudo de Caso: Agenda de Contatos" }
+      ]},
+      { id: "cap-14", titulo: "14. Lambdas e fluxos Java SE 8", subcapitulos: [
+        { id: "sub-14-1", titulo: "14.1 Programação Funcional: Conceitos Básicos" },
+        { id: "sub-14-2", titulo: "14.2 Expressões Lambda: Sintaxe e Uso" },
+        { id: "sub-14-3", titulo: "14.3 Interfaces Funcionais (Predicate, Consumer, Function)" },
+        { id: "sub-14-4", titulo: "14.4 Streams: Operações Intermediárias e Terminais" },
+        { id: "sub-14-5", titulo: "14.5 Métodos de Referência (::)" },
+        { id: "sub-14-6", titulo: "14.6 Estudo de Caso: Pipeline de Processamento de Dados" }
+      ]},
+      { id: "cap-15", titulo: "15. Recursão", subcapitulos: [
+        { id: "sub-15-1", titulo: "15.1 Conceitos de Recursão e Caso Base" },
+        { id: "sub-15-2", titulo: "15.2 Recursão vs Iteração: Prós e Contras" },
+        { id: "sub-15-3", titulo: "15.3 Exemplos Clássicos: Fatorial e Fibonacci" },
+        { id: "sub-15-4", titulo: "15.4 Recursão em Estruturas de Árvore" },
+        { id: "sub-15-5", titulo: "15.5 Stack Overflow e Otimização Tail Recursion" },
+        { id: "sub-15-6", titulo: "15.6 Estudo de Caso: Torre de Hanói" }
+      ]},
+      { id: "cap-16", titulo: "16. Pesquisa, classificação e Big O", subcapitulos: [
+        { id: "sub-16-1", titulo: "16.1 Notação Big O: Conceitos Fundamentais" },
+        { id: "sub-16-2", titulo: "16.2 Algoritmos de Busca: Linear e Binária" },
+        { id: "sub-16-3", titulo: "16.3 Ordenação: Selection Sort e Insertion Sort" },
+        { id: "sub-16-4", titulo: "16.4 Ordenação: Merge Sort e Quick Sort" },
+        { id: "sub-16-5", titulo: "16.5 Comparação de Complexidade dos Algoritmos" },
+        { id: "sub-16-6", titulo: "16.6 Estudo de Caso: Benchmarking de Algoritmos" }
+      ]},
+      { id: "cap-17", titulo: "17. Classes e métodos genéricos", subcapitulos: [
+        { id: "sub-17-1", titulo: "17.1 Introdução a Generics e Type Safety" },
+        { id: "sub-17-2", titulo: "17.2 Classes Genéricas Personalizadas" },
+        { id: "sub-17-3", titulo: "17.3 Métodos Genéricos e Inferência de Tipo" },
+        { id: "sub-17-4", titulo: "17.4 Wildcards: <?>, <? extends T>, <? super T>" },
+        { id: "sub-17-5", titulo: "17.5 Type Erasure: Entendendo o Runtime" },
+        { id: "sub-17-6", titulo: "17.6 Estudo de Caso: Repositório Genérico" }
+      ]},
+      { id: "cap-18", titulo: "18. Estruturas de dados genéricas personalizadas", subcapitulos: [
+        { id: "sub-18-1", titulo: "18.1 Listas Encadeadas (Linked List) Genéricas" },
+        { id: "sub-18-2", titulo: "18.2 Pilhas (Stack) Genéricas" },
+        { id: "sub-18-3", titulo: "18.3 Filas (Queue) Genéricas" },
+        { id: "sub-18-4", titulo: "18.4 Árvores Binárias Genéricas" },
+        { id: "sub-18-5", titulo: "18.5 Tabelas Hash Personalizadas" },
+        { id: "sub-18-6", titulo: "18.6 Estudo de Caso: Estrutura de Dados Híbrida" }
+      ]},
+      { id: "cap-19", titulo: "19. Concorrência", subcapitulos: [
+        { id: "sub-19-1", titulo: "19.1 Threads: Criação e Ciclo de Vida" },
+        { id: "sub-19-2", titulo: "19.2 Interface Runnable e Classe Thread" },
+        { id: "sub-19-3", titulo: "19.3 Sincronização e Problemas de Concorrência" },
+        { id: "sub-19-4", titulo: "19.4 Blocos synchronized e Locks Explícitos" },
+        { id: "sub-19-5", titulo: "19.5 Executors, Thread Pools e Futures" },
+        { id: "sub-19-6", titulo: "19.6 Coleções Concorrentes e Boas Práticas" }
+      ]}
+    ];
+  </script>
+
+  <!-- MÓDULOS JS -->
+  <script src="js/event-bus.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/router.js"></script>
+  <script src="js/navigation.js"></script>
+  <script src="js/menu-renderer.js"></script>
+  <script src="js/content-renderer.js"></script>
+
+  <!-- INICIALIZAÇÃO -->
+  <script>
+    function inicializarAplicacao() {
+      Store.inicializar();
+      Auth.inicializar();
+      UI.inicializar();
+      MenuRenderer.renderizar();
+      Navigation.inicializar();
+      Router.inicializar();
+
+      const idsConcluidos = Store.obterProgresso();
+      if (idsConcluidos.length > 0) {
+        MenuRenderer.aplicarProgresso(idsConcluidos);
+      }
+
+      EventBus.on('PROGRESS_CHANGED', (dados) => {
+        MenuRenderer.aplicarProgresso(dados.concluidos);
+      });
+
+      // Menu hamburger mobile
+      const btnHamburger = document.getElementById('btn-hamburger');
+      const sidebar = document.getElementById('sidebar');
+      btnHamburger.addEventListener('click', () => {
+        sidebar.classList.toggle('mobile-aberto');
+      });
+      document.addEventListener('click', (e) => {
+        if (window.innerWidth <= 768 && !sidebar.contains(e.target) && !btnHamburger.contains(e.target)) {
+          sidebar.classList.remove('mobile-aberto');
+        }
+      });
+
+      if (Store.state.usuario.logado) {
+        UI.mostrarTelaCurso(Store.state.usuario);
+      } else {
+        UI.mostrarTelaLogin();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', inicializarAplicacao);
+  </script>
+</body>
+</html>
