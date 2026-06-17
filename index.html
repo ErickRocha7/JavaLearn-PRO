@@ -140,88 +140,105 @@
     </div>
   </div>
 
-  <!-- DADOS DO CURSO -->
+  <!-- DADOS DO CURSO (NOVA ESTRUTURA) -->
   <script>
     const cursoJavaEstrutura = [
       { id: "cap-1", titulo: "1. Introdução a aplicativos Java – entrada/saída e operadores", subcapitulos: [
-        { id: "sub-1-1", titulo: "1.1 Visão Geral do Java e Configuração do Ambiente" },
-        { id: "sub-1-2", titulo: "1.2 Primeiro Programa: Hello World em Java" },
-        { id: "sub-1-3", titulo: "1.3 Entrada e Saída com Scanner e System.out" },
-        { id: "sub-1-4", titulo: "1.4 Operadores Aritméticos e de Atribuição" },
-        { id: "sub-1-5", titulo: "1.5 Operadores Relacionais e Lógicos Básicos" },
-        { id: "sub-1-6", titulo: "1.6 Estudo de Caso: Calculadora Simples" }
+        { id: "sub-1-1", titulo: "1.1 Visão Geral do Java e Ecossistema" },
+        { id: "sub-1-2", titulo: "1.2 Configuração do Ambiente (JDK, IDE, PATH)" },
+        { id: "sub-1-3", titulo: "1.3 Primeiro Programa: Hello World Explicado" },
+        { id: "sub-1-4", titulo: "1.4 Saída de Dados com System.out e printf" },
+        { id: "sub-1-5", titulo: "1.5 Entrada de Dados com Scanner" },
+        { id: "sub-1-6", titulo: "1.6 Operadores Aritméticos e de Atribuição" },
+        { id: "sub-1-7", titulo: "1.7 Operadores Relacionais e Lógicos Básicos" },
+        { id: "sub-1-8", titulo: "1.8 Estudo de Caso: Calculadora Simples" }
       ]},
       { id: "cap-2", titulo: "2. Introdução a classes, objetos, métodos e strings", subcapitulos: [
         { id: "sub-2-1", titulo: "2.1 Conceitos de Classe e Objeto" },
         { id: "sub-2-2", titulo: "2.2 Declaração de Classes e Instanciação" },
-        { id: "sub-2-3", titulo: "2.3 Métodos: Definição, Parâmetros e Retorno" },
-        { id: "sub-2-4", titulo: "2.4 Construtores e Sobrecarga" },
-        { id: "sub-2-5", titulo: "2.5 Manipulação de Strings (Classe String)" },
-        { id: "sub-2-6", titulo: "2.6 Estudo de Caso: Cadastro de Alunos" }
+        { id: "sub-2-3", titulo: "2.3 Atributos e Modificadores de Acesso" },
+        { id: "sub-2-4", titulo: "2.4 Métodos: Definição, Parâmetros e Retorno" },
+        { id: "sub-2-5", titulo: "2.5 Construtores e Sobrecarga" },
+        { id: "sub-2-6", titulo: "2.6 A Classe String: Principais Métodos" },
+        { id: "sub-2-7", titulo: "2.7 Imutabilidade e Pool de Strings" },
+        { id: "sub-2-8", titulo: "2.8 Estudo de Caso: Cadastro de Alunos" }
       ]},
-      { id: "cap-3", titulo: "3. Instruções de controle: parte 1; operadores de atribuição ++ e --", subcapitulos: [
+      { id: "cap-3", titulo: "3. Instruções de controle: parte 1", subcapitulos: [
         { id: "sub-3-1", titulo: "3.1 Estruturas Condicionais: if, else if, else" },
         { id: "sub-3-2", titulo: "3.2 Condições Aninhadas e Operador Ternário" },
         { id: "sub-3-3", titulo: "3.3 Operadores de Incremento e Decremento" },
         { id: "sub-3-4", titulo: "3.4 Laço de Repetição while" },
         { id: "sub-3-5", titulo: "3.5 Laço for e Escopo de Variáveis" },
-        { id: "sub-3-6", titulo: "3.6 Estudo de Caso: Validação de Notas" }
+        { id: "sub-3-6", titulo: "3.6 Comparação entre while e for" },
+        { id: "sub-3-7", titulo: "3.7 Estudo de Caso: Validador de Notas" }
       ]},
-      { id: "cap-4", titulo: "4. Instruções de controle: parte 2; operadores lógicos", subcapitulos: [
-        { id: "sub-4-1", titulo: "4.1 Operadores Lógicos: AND, OR, NOT" },
-        { id: "sub-4-2", titulo: "4.2 Avaliação de Curto-Circuito" },
-        { id: "sub-4-3", titulo: "4.3 Laço do...while e Comparação com while" },
-        { id: "sub-4-4", titulo: "4.4 Comandos break e continue" },
-        { id: "sub-4-5", titulo: "4.5 Laços Aninhados" },
-        { id: "sub-4-6", titulo: "4.6 Estudo de Caso: Menu Interativo" }
+      { id: "cap-4", titulo: "4. Instruções de controle: parte 2", subcapitulos: [
+        { id: "sub-4-1", titulo: "4.1 Operadores Lógicos: AND, OR, NOT e Curtos-Circuitos" },
+        { id: "sub-4-2", titulo: "4.2 Laço do...while e Comparação com while" },
+        { id: "sub-4-3", titulo: "4.3 Comandos break e continue" },
+        { id: "sub-4-4", titulo: "4.4 Laços Aninhados" },
+        { id: "sub-4-5", titulo: "4.5 Loops Infinitos e Cuidados" },
+        { id: "sub-4-6", titulo: "4.6 Estudo de Caso: Menu Interativo com do...while" }
       ]},
       { id: "cap-5", titulo: "5. Métodos: um exame mais profundo", subcapitulos: [
         { id: "sub-5-1", titulo: "5.1 Modularização e Reutilização de Código" },
-        { id: "sub-5-2", titulo: "5.2 Passagem de Argumentos por Valor e Referência" },
-        { id: "sub-5-3", titulo: "5.3 Métodos static e Escopo de Classe" },
-        { id: "sub-5-4", titulo: "5.4 Recursão: Conceitos Iniciais" },
-        { id: "sub-5-5", titulo: "5.5 Boas Práticas: Coesão e Tamanho de Métodos" },
-        { id: "sub-5-6", titulo: "5.6 Estudo de Caso: Biblioteca de Funções Matemáticas" }
+        { id: "sub-5-2", titulo: "5.2 Passagem de Argumentos por Valor" },
+        { id: "sub-5-3", titulo: "5.3 Passagem de Argumentos por Referência (Objetos)" },
+        { id: "sub-5-4", titulo: "5.4 Métodos static e Escopo de Classe" },
+        { id: "sub-5-5", titulo: "5.5 Sobrecarga de Métodos" },
+        { id: "sub-5-6", titulo: "5.6 Recursão: Conceitos e Exemplos Simples" },
+        { id: "sub-5-7", titulo: "5.7 Boas Práticas: Coesão e Tamanho de Métodos" },
+        { id: "sub-5-8", titulo: "5.8 Estudo de Caso: Biblioteca de Funções Matemáticas" }
       ]},
       { id: "cap-6", titulo: "6. Arrays e ArrayLists", subcapitulos: [
         { id: "sub-6-1", titulo: "6.1 Declaração e Inicialização de Arrays" },
         { id: "sub-6-2", titulo: "6.2 Percorrendo Arrays com for e for-each" },
         { id: "sub-6-3", titulo: "6.3 Arrays Multidimensionais" },
-        { id: "sub-6-4", titulo: "6.4 Introdução à Classe ArrayList" },
-        { id: "sub-6-5", titulo: "6.5 Métodos de ArrayList: add, remove, contains" },
-        { id: "sub-6-6", titulo: "6.6 Estudo de Caso: Lista de Tarefas Dinâmica" }
+        { id: "sub-6-4", titulo: "6.4 Classe Arrays e Métodos Utilitários" },
+        { id: "sub-6-5", titulo: "6.5 Introdução à Classe ArrayList" },
+        { id: "sub-6-6", titulo: "6.6 Métodos de ArrayList: add, remove, contains" },
+        { id: "sub-6-7", titulo: "6.7 Diferenças entre Array e ArrayList" },
+        { id: "sub-6-8", titulo: "6.8 Estudo de Caso: Lista de Tarefas Dinâmica" }
       ]},
       { id: "cap-7", titulo: "7. Classes e objetos: um exame mais profundo", subcapitulos: [
-        { id: "sub-7-1", titulo: "7.1 Encapsulamento e Modificadores de Acesso" },
-        { id: "sub-7-2", titulo: "7.2 Composição: Objetos como Atributos" },
-        { id: "sub-7-3", titulo: "7.3 Membros de Classe: static e final" },
-        { id: "sub-7-4", titulo: "7.4 Enums: Tipos Enumerados" },
-        { id: "sub-7-5", titulo: "7.5 Pacotes e Organização de Código" },
-        { id: "sub-7-6", titulo: "7.6 Estudo de Caso: Sistema Bancário Simplificado" }
+        { id: "sub-7-1", titulo: "7.1 Encapsulamento e Modificadores de Acesso (private, public)" },
+        { id: "sub-7-2", titulo: "7.2 Getters e Setters" },
+        { id: "sub-7-3", titulo: "7.3 Composição: Objetos como Atributos" },
+        { id: "sub-7-4", titulo: "7.4 Membros de Classe: static e final" },
+        { id: "sub-7-5", titulo: "7.5 Enums: Tipos Enumerados" },
+        { id: "sub-7-6", titulo: "7.6 Pacotes e Organização de Código" },
+        { id: "sub-7-7", titulo: "7.7 Visibilidade package-private" },
+        { id: "sub-7-8", titulo: "7.8 Estudo de Caso: Sistema Bancário Simplificado" }
       ]},
       { id: "cap-8", titulo: "8. Programação orientada a objetos: herança", subcapitulos: [
         { id: "sub-8-1", titulo: "8.1 Conceitos Fundamentais de Herança" },
         { id: "sub-8-2", titulo: "8.2 Superclasse, Subclasse e Palavra-chave extends" },
         { id: "sub-8-3", titulo: "8.3 Sobrescrita de Métodos (@Override) e super" },
         { id: "sub-8-4", titulo: "8.4 Construtores em Hierarquias de Herança" },
-        { id: "sub-8-5", titulo: "8.5 Classes Abstratas e Métodos Abstratos" },
-        { id: "sub-8-6", titulo: "8.6 Estudo de Caso: Sistema de Funcionários" }
+        { id: "sub-8-5", titulo: "8.5 Modificador protected" },
+        { id: "sub-8-6", titulo: "8.6 Classes Abstratas e Métodos Abstratos" },
+        { id: "sub-8-7", titulo: "8.7 Palavra-chave final em Métodos e Classes" },
+        { id: "sub-8-8", titulo: "8.8 Estudo de Caso: Sistema de Funcionários" }
       ]},
       { id: "cap-9", titulo: "9. Programação orientada a objetos: polimorfismo e interfaces", subcapitulos: [
         { id: "sub-9-1", titulo: "9.1 Polimorfismo: Conceito e Aplicação" },
-        { id: "sub-9-2", titulo: "9.2 Interfaces: Definição e Implementação" },
-        { id: "sub-9-3", titulo: "9.3 Múltiplas Interfaces e Herança Múltipla" },
-        { id: "sub-9-4", titulo: "9.4 Interfaces vs Classes Abstratas" },
-        { id: "sub-9-5", titulo: "9.5 Métodos default em Interfaces (Java 8+)" },
-        { id: "sub-9-6", titulo: "9.6 Estudo de Caso: Animais e Comportamentos" }
+        { id: "sub-9-2", titulo: "9.2 Vinculação Dinâmica e Sobrescrita" },
+        { id: "sub-9-3", titulo: "9.3 Interfaces: Definição e Implementação" },
+        { id: "sub-9-4", titulo: "9.4 Múltiplas Interfaces e Herança Múltipla" },
+        { id: "sub-9-5", titulo: "9.5 Interfaces vs Classes Abstratas" },
+        { id: "sub-9-6", titulo: "9.6 Métodos default e static em Interfaces (Java 8+)" },
+        { id: "sub-9-7", titulo: "9.7 Upcasting e Downcasting" },
+        { id: "sub-9-8", titulo: "9.8 Estudo de Caso: Animais e Comportamentos" }
       ]},
-      { id: "cap-10", titulo: "10. Tratamento de exceção: um exame mais profundo", subcapitulos: [
+      { id: "cap-10", titulo: "10. Tratamento de exceção", subcapitulos: [
         { id: "sub-10-1", titulo: "10.1 Hierarquia de Exceções em Java" },
         { id: "sub-10-2", titulo: "10.2 Blocos try-catch e finally" },
         { id: "sub-10-3", titulo: "10.3 Lançando Exceções com throw e throws" },
         { id: "sub-10-4", titulo: "10.4 Exceções Verificadas vs Não Verificadas" },
         { id: "sub-10-5", titulo: "10.5 Criação de Exceções Personalizadas" },
-        { id: "sub-10-6", titulo: "10.6 Estudo de Caso: Validação Robusta de Dados" }
+        { id: "sub-10-6", titulo: "10.6 Pilha de Chamadas e Debugging" },
+        { id: "sub-10-7", titulo: "10.7 Bloco try-with-resources (AutoCloseable)" },
+        { id: "sub-10-8", titulo: "10.8 Estudo de Caso: Validação Robusta de Dados" }
       ]},
       { id: "cap-11", titulo: "11. Strings, caracteres e expressões regulares", subcapitulos: [
         { id: "sub-11-1", titulo: "11.1 Classe String: Métodos Essenciais" },
@@ -229,15 +246,19 @@
         { id: "sub-11-3", titulo: "11.3 Classe Character e Manipulação de Char" },
         { id: "sub-11-4", titulo: "11.4 Introdução a Expressões Regulares (Regex)" },
         { id: "sub-11-5", titulo: "11.5 Classes Pattern e Matcher" },
-        { id: "sub-11-6", titulo: "11.6 Estudo de Caso: Validador de CPF e E-mail" }
+        { id: "sub-11-6", titulo: "11.6 Quantificadores e Classes de Caracteres" },
+        { id: "sub-11-7", titulo: "11.7 Substituição e Divisão com Regex" },
+        { id: "sub-11-8", titulo: "11.8 Estudo de Caso: Validador de CPF e E-mail" }
       ]},
-      { id: "cap-12", titulo: "12. Arquivos, fluxos e serialização de objetos", subcapitulos: [
+      { id: "cap-12", titulo: "12. Arquivos, fluxos e serialização", subcapitulos: [
         { id: "sub-12-1", titulo: "12.1 Hierarquia de Streams em Java" },
-        { id: "sub-12-2", titulo: "12.2 Leitura e Escrita de Arquivos Texto" },
-        { id: "sub-12-3", titulo: "12.3 Fluxos Binários e Buffered" },
-        { id: "sub-12-4", titulo: "12.4 Serialização de Objetos (Interface Serializable)" },
-        { id: "sub-12-5", titulo: "12.5 Trabalhando com Path e Files (NIO)" },
-        { id: "sub-12-6", titulo: "12.6 Estudo de Caso: Sistema de Backup de Dados" }
+        { id: "sub-12-2", titulo: "12.2 Leitura e Escrita de Arquivos Texto (FileReader/FileWriter)" },
+        { id: "sub-12-3", titulo: "12.3 Fluxos Binários (InputStream/OutputStream)" },
+        { id: "sub-12-4", titulo: "12.4 Buffered Streams para Desempenho" },
+        { id: "sub-12-5", titulo: "12.5 Serialização de Objetos (Interface Serializable)" },
+        { id: "sub-12-6", titulo: "12.6 Trabalhando com Path e Files (NIO)" },
+        { id: "sub-12-7", titulo: "12.7 Leitura de CSV e Processamento de Dados" },
+        { id: "sub-12-8", titulo: "12.8 Estudo de Caso: Sistema de Backup de Dados" }
       ]},
       { id: "cap-13", titulo: "13. Coleções genéricas", subcapitulos: [
         { id: "sub-13-1", titulo: "13.1 Visão Geral do Framework de Coleções" },
@@ -245,39 +266,46 @@
         { id: "sub-13-3", titulo: "13.3 Set: HashSet, TreeSet e LinkedHashSet" },
         { id: "sub-13-4", titulo: "13.4 Map: HashMap, TreeMap e LinkedHashMap" },
         { id: "sub-13-5", titulo: "13.5 Iteradores e o Padrão Iterator" },
-        { id: "sub-13-6", titulo: "13.6 Estudo de Caso: Agenda de Contatos" }
+        { id: "sub-13-6", titulo: "13.6 Ordenação com Comparable e Comparator" },
+        { id: "sub-13-7", titulo: "13.7 Coleções Imutáveis (Java 9+)" },
+        { id: "sub-13-8", titulo: "13.8 Estudo de Caso: Agenda de Contatos" }
       ]},
       { id: "cap-14", titulo: "14. Lambdas e fluxos Java SE 8", subcapitulos: [
-        { id: "sub-14-1", titulo: "14.1 Programação Funcional: Conceitos Básicos" },
+        { id: "sub-14-1", titulo: "14.1 Programação Funcional: Conceitos" },
         { id: "sub-14-2", titulo: "14.2 Expressões Lambda: Sintaxe e Uso" },
         { id: "sub-14-3", titulo: "14.3 Interfaces Funcionais (Predicate, Consumer, Function)" },
         { id: "sub-14-4", titulo: "14.4 Streams: Operações Intermediárias e Terminais" },
         { id: "sub-14-5", titulo: "14.5 Métodos de Referência (::)" },
-        { id: "sub-14-6", titulo: "14.6 Estudo de Caso: Pipeline de Processamento de Dados" }
+        { id: "sub-14-6", titulo: "14.6 Streams Paralelos e Cuidados" },
+        { id: "sub-14-7", titulo: "14.7 Coletores (Collectors) e Agrupamento" },
+        { id: "sub-14-8", titulo: "14.8 Estudo de Caso: Pipeline de Processamento de Dados" }
       ]},
       { id: "cap-15", titulo: "15. Recursão", subcapitulos: [
         { id: "sub-15-1", titulo: "15.1 Conceitos de Recursão e Caso Base" },
         { id: "sub-15-2", titulo: "15.2 Recursão vs Iteração: Prós e Contras" },
-        { id: "sub-15-3", titulo: "15.3 Exemplos Clássicos: Fatorial e Fibonacci" },
+        { id: "sub-15-3", titulo: "15.3 Fatorial e Fibonacci Recursivos" },
         { id: "sub-15-4", titulo: "15.4 Recursão em Estruturas de Árvore" },
-        { id: "sub-15-5", titulo: "15.5 Stack Overflow e Otimização Tail Recursion" },
-        { id: "sub-15-6", titulo: "15.6 Estudo de Caso: Torre de Hanói" }
+        { id: "sub-15-5", titulo: "15.5 Stack Overflow e Tail Recursion" },
+        { id: "sub-15-6", titulo: "15.6 Estudo de Caso: Torres de Hanói" }
       ]},
       { id: "cap-16", titulo: "16. Pesquisa, classificação e Big O", subcapitulos: [
         { id: "sub-16-1", titulo: "16.1 Notação Big O: Conceitos Fundamentais" },
-        { id: "sub-16-2", titulo: "16.2 Algoritmos de Busca: Linear e Binária" },
-        { id: "sub-16-3", titulo: "16.3 Ordenação: Selection Sort e Insertion Sort" },
-        { id: "sub-16-4", titulo: "16.4 Ordenação: Merge Sort e Quick Sort" },
-        { id: "sub-16-5", titulo: "16.5 Comparação de Complexidade dos Algoritmos" },
-        { id: "sub-16-6", titulo: "16.6 Estudo de Caso: Benchmarking de Algoritmos" }
+        { id: "sub-16-2", titulo: "16.2 Complexidade de Tempo e Espaço" },
+        { id: "sub-16-3", titulo: "16.3 Busca Linear e Binária" },
+        { id: "sub-16-4", titulo: "16.4 Ordenação: Selection Sort e Insertion Sort" },
+        { id: "sub-16-5", titulo: "16.5 Ordenação: Merge Sort e Quick Sort" },
+        { id: "sub-16-6", titulo: "16.6 Comparação de Algoritmos de Ordenação" },
+        { id: "sub-16-7", titulo: "16.7 Busca em Coleções (contains, indexOf)" },
+        { id: "sub-16-8", titulo: "16.8 Estudo de Caso: Benchmarking de Algoritmos" }
       ]},
       { id: "cap-17", titulo: "17. Classes e métodos genéricos", subcapitulos: [
         { id: "sub-17-1", titulo: "17.1 Introdução a Generics e Type Safety" },
         { id: "sub-17-2", titulo: "17.2 Classes Genéricas Personalizadas" },
         { id: "sub-17-3", titulo: "17.3 Métodos Genéricos e Inferência de Tipo" },
-        { id: "sub-17-4", titulo: "17.4 Wildcards: <?>, <? extends T>, <? super T>" },
+        { id: "sub-17-4", titulo: "17.4 Wildcards: ?, ? extends T, ? super T" },
         { id: "sub-17-5", titulo: "17.5 Type Erasure: Entendendo o Runtime" },
-        { id: "sub-17-6", titulo: "17.6 Estudo de Caso: Repositório Genérico" }
+        { id: "sub-17-6", titulo: "17.6 Restrições e Boas Práticas" },
+        { id: "sub-17-7", titulo: "17.7 Estudo de Caso: Repositório Genérico" }
       ]},
       { id: "cap-18", titulo: "18. Estruturas de dados genéricas personalizadas", subcapitulos: [
         { id: "sub-18-1", titulo: "18.1 Listas Encadeadas (Linked List) Genéricas" },
@@ -285,15 +313,18 @@
         { id: "sub-18-3", titulo: "18.3 Filas (Queue) Genéricas" },
         { id: "sub-18-4", titulo: "18.4 Árvores Binárias Genéricas" },
         { id: "sub-18-5", titulo: "18.5 Tabelas Hash Personalizadas" },
-        { id: "sub-18-6", titulo: "18.6 Estudo de Caso: Estrutura de Dados Híbrida" }
+        { id: "sub-18-6", titulo: "18.6 Iteradores Personalizados" },
+        { id: "sub-18-7", titulo: "18.7 Estudo de Caso: Estrutura de Dados Híbrida" }
       ]},
       { id: "cap-19", titulo: "19. Concorrência", subcapitulos: [
         { id: "sub-19-1", titulo: "19.1 Threads: Criação e Ciclo de Vida" },
         { id: "sub-19-2", titulo: "19.2 Interface Runnable e Classe Thread" },
         { id: "sub-19-3", titulo: "19.3 Sincronização e Problemas de Concorrência" },
-        { id: "sub-19-4", titulo: "19.4 Blocos synchronized e Locks Explícitos" },
+        { id: "sub-19-4", titulo: "19.4 Blocos synchronized e Locks" },
         { id: "sub-19-5", titulo: "19.5 Executors, Thread Pools e Futures" },
-        { id: "sub-19-6", titulo: "19.6 Coleções Concorrentes e Boas Práticas" }
+        { id: "sub-19-6", titulo: "19.6 Coleções Concorrentes (ConcurrentHashMap, CopyOnWriteArrayList)" },
+        { id: "sub-19-7", titulo: "19.7 Variáveis Atômicas (AtomicInteger)" },
+        { id: "sub-19-8", titulo: "19.8 Estudo de Caso: Simulador de Download Paralelo" }
       ]}
     ];
   </script>
@@ -328,7 +359,6 @@
         MenuRenderer.aplicarProgresso(dados.concluidos);
       });
 
-      // Menu hamburger mobile
       const btnHamburger = document.getElementById('btn-hamburger');
       const sidebar = document.getElementById('sidebar');
       btnHamburger.addEventListener('click', () => {
