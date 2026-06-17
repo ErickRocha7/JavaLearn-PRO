@@ -89,78 +89,128 @@ const ContentRenderer = {
     return total;
   },
 
+  /**
+   * Renderiza uma imagem responsiva com legenda
+   */
+  renderizarImagem(imgData) {
+    if (!imgData || !imgData.src) return '';
+    const { src, alt, legenda } = imgData;
+    return `
+      <figure class="my-6">
+        <img 
+          src="${src}" 
+          alt="${alt || ''}" 
+          class="rounded-lg shadow-md w-full max-w-[600px] h-auto mx-auto"
+          loading="lazy"
+        >
+        ${legenda ? `<figcaption class="text-sm text-slate-500 text-center mt-2 italic">${legenda}</figcaption>` : ''}
+      </figure>`;
+  },
+
   renderizar(subcapituloId) {
     const container = document.getElementById('conteudo-aula');
-    const dados = this.encontrarDadosSubcapitulo(subcapituloId);
-    if (!dados) {
+    const dadosEstrutura = this.encontrarDadosSubcapitulo(subcapituloId);
+    if (!dadosEstrutura) {
       container.innerHTML = `<div class="text-center py-20 text-red-500">Aula não encontrada: ${subcapituloId}</div>`;
       return;
     }
 
+    // Buscar conteúdo real da aula (se já foi criado)
+    const conteudoReal = window.conteudoAulas?.[subcapituloId];
+
+    // Calcular progresso
     let numeroAula = 1;
     for (const cap of cursoJavaEstrutura) {
       for (const sub of cap.subcapitulos) {
         if (sub.id === subcapituloId) break;
         numeroAula++;
       }
-      if (dados.capituloId === cap.id) break;
+      if (dadosEstrutura.capituloId === cap.id) break;
     }
     const totalAulas = this._calcularTotalAulas();
     const percentual = Math.round((Store.obterProgresso().length / totalAulas) * 100);
 
-    const exemploCodigo = 
-`public class ExemploIf {
-    public static void main(String[] args) {
-        int nota = 85;
-        
-        if (nota >= 70) {
-            System.out.println("Aprovado!");
-        } else {
-            System.out.println("Reprovado.");
-        }
-    }
-}`;
-
-    const codigoFormatado = this.formatarCodigoJava(exemploCodigo);
-    const diagramaHTML = this.renderizarDiagramaCondicional(
-      'nota >= 70',
-      'System.out.println("Aprovado!");',
-      'System.out.println("Reprovado.");'
-    );
-
-    container.innerHTML = `
+    // Construir cabeçalho comum
+    let html = `
       <article class="max-w-none">
         <div class="flex items-baseline justify-between mb-4">
-          <h1 class="text-3xl font-bold text-slate-900">${dados.titulo}</h1>
+          <h1 class="text-3xl font-bold text-slate-900">${dadosEstrutura.titulo}</h1>
           <span class="text-sm text-slate-400 font-mono">Aula ${numeroAula} de ${totalAulas}</span>
         </div>
-        <p class="text-sm text-slate-500 mb-2">📂 ${dados.capituloTitulo}</p>
+        <p class="text-sm text-slate-500 mb-2">📂 ${dadosEstrutura.capituloTitulo}</p>
         <div class="mb-8 bg-slate-100 rounded-full h-2 overflow-hidden">
           <div class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: ${percentual}%"></div>
         </div>
         <p class="text-xs text-slate-400 text-right mb-8">${percentual}% do curso concluído</p>
-        <div class="prose prose-slate max-w-none">
-          <p class="text-base text-slate-700 leading-relaxed mb-4">
-            Em Java, a estrutura condicional <code>if</code> permite executar blocos de código
-            baseados em condições booleanas. Veja um exemplo completo:
-          </p>
-          <pre class="rounded-lg p-4 overflow-x-auto my-6 text-sm font-mono leading-relaxed" style="background-color: #272822;">
-            <code>${codigoFormatado}</code>
-          </pre>
-          <p class="text-base text-slate-700 leading-relaxed mb-4">
-            O fluxo de decisão pode ser visualizado no diagrama abaixo:
-          </p>
-          ${diagramaHTML}
-          <p class="text-base text-slate-700 leading-relaxed mb-4">
-            Palavras-chave como <code>if</code>, <code>else</code>, <code>true</code> e <code>false</code>
-            são reservadas e não podem ser usadas como identificadores.
-          </p>
-          <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6 rounded-r-lg">
-            <p class="text-sm text-blue-800">
-              <strong>💡 Dica:</strong> Sempre use chaves <code>{ }</code> mesmo em blocos de uma linha para evitar bugs sutis.
-            </p>
+    `;
+
+    if (conteudoReal) {
+      // ---- Conteúdo real da aula ----
+
+      // 1. Teoria
+      if (conteudoReal.teoria) {
+        html += `<div class="prose prose-slate max-w-none mb-8">${conteudoReal.teoria}</div>`;
+      }
+
+      // 2. Imagens
+      if (conteudoReal.imagens && conteudoReal.imagens.length > 0) {
+        html += conteudoReal.imagens.map(img => this.renderizarImagem(img)).join('');
+      }
+
+      // 3. Exemplos de código
+      if (conteudoReal.exemplos && conteudoReal.exemplos.length > 0) {
+        html += `<h3 class="text-xl font-bold text-slate-800 mt-8 mb-4">Exemplos</h3>`;
+        conteudoReal.exemplos.forEach((ex, idx) => {
+          html += `
+            <div class="mb-6">
+              <h4 class="text-lg font-semibold text-slate-700 mb-2">${ex.titulo || `Exemplo ${idx + 1}`}</h4>
+              <pre class="rounded-lg p-4 overflow-x-auto my-3 text-sm font-mono leading-relaxed" style="background-color: #272822;">
+                <code>${this.formatarCodigoJava(ex.codigo)}</code>
+              </pre>
+              ${ex.explicacao ? `<p class="text-sm text-slate-600">${ex.explicacao}</p>` : ''}
+            </div>`;
+        });
+      }
+
+      // 4. Diagrama condicional (se definido na aula)
+      if (conteudoReal.diagramaCondicional) {
+        const d = conteudoReal.diagramaCondicional;
+        html += this.renderizarDiagramaCondicional(d.condicao, d.blocoTrue, d.blocoFalse);
+      }
+
+      // 5. Exercícios de fixação
+      if (conteudoReal.exercicios && conteudoReal.exercicios.length > 0) {
+        html += `<h3 class="text-xl font-bold text-slate-800 mt-8 mb-4">Exercícios de Fixação</h3>`;
+        conteudoReal.exercicios.forEach((ex, idx) => {
+          html += `
+            <div class="bg-slate-50 p-4 rounded-lg mb-4">
+              <p class="font-semibold text-slate-700 mb-2">${idx + 1}. ${ex.pergunta}</p>
+              <ul class="list-none space-y-1 ml-4">
+                ${ex.alternativas.map((alt, i) => `
+                  <li class="text-sm text-slate-600">${String.fromCharCode(97 + i)}) ${alt}</li>
+                `).join('')}
+              </ul>
+              <div class="mt-3 text-sm text-slate-500 italic">
+                <strong>Resposta:</strong> ${String.fromCharCode(97 + ex.respostaCorreta)}. ${ex.explicacao || ''}
+              </div>
+            </div>`;
+        });
+      }
+    } else {
+      // Placeholder para aulas ainda não criadas
+      html += `
+        <div class="flex flex-col items-center justify-center py-16 text-center bg-slate-50 rounded-xl border border-slate-200">
+          <div class="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
           </div>
-        </div>
-      </article>`;
+          <h3 class="text-xl font-semibold text-slate-700 mb-2">Conteúdo em desenvolvimento</h3>
+          <p class="text-slate-500 max-w-md">Esta aula ainda está sendo preparada. Enquanto isso, explore outras já concluídas.</p>
+        </div>`;
+    }
+
+    html += `</article>`;
+    container.innerHTML = html;
   }
 };
