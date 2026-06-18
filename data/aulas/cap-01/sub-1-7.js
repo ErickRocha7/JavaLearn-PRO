@@ -73,10 +73,30 @@ boolean aprovado = nomeLimpo && (rendaAlta || temFiador); // true</pre>
           </tr>
         </thead>
         <tbody>
-          <tr><td class="border border-slate-300 px-4 py-2">true</td><td class="border border-slate-300 px-4 py-2">true</td><td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td><td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td></tr>
-          <tr><td class="border border-slate-300 px-4 py-2">true</td><td class="border border-slate-300 px-4 py-2">false</td><td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td><td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td></tr>
-          <tr><td class="border border-slate-300 px-4 py-2">false</td><td class="border border-slate-300 px-4 py-2">true</td><td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td><td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td></tr>
-          <tr><td class="border border-slate-300 px-4 py-2">false</td><td class="border border-slate-300 px-4 py-2">false</td><td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td><td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td></tr>
+          <tr>
+            <td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td>
+            <td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td>
+            <td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td>
+            <td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td>
+          </tr>
+          <tr>
+            <td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td>
+            <td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td>
+            <td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td>
+            <td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td>
+          </tr>
+          <tr>
+            <td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td>
+            <td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td>
+            <td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td>
+            <td class="border border-slate-300 px-4 py-2 text-green-600 font-bold">true</td>
+          </tr>
+          <tr>
+            <td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td>
+            <td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td>
+            <td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td>
+            <td class="border border-slate-300 px-4 py-2 text-red-600 font-bold">false</td>
+          </tr>
         </tbody>
       </table>
     </div>
