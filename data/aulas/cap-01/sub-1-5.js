@@ -87,14 +87,7 @@ String nome = teclado.nextLine();  // agora funciona perfeitamente</pre>
   `,
 
   imagens: [
-    // Espaço reservado para futuras imagens. Exemplo:
-    // {
-    //   src: 'assets/images/scanner-fluxo-entrada.png',
-    //   alt: 'Diagrama do fluxo de entrada com Scanner',
-    //   legenda: 'O Scanner lê o buffer de entrada e converte tokens para os tipos solicitados.',
-    //   largura: 600,
-    //   altura: 400
-    // }
+    // Espaço reservado para futuras imagens.
   ],
 
   exemplos: [
@@ -142,11 +135,11 @@ System.out.println("Nome: '" + nome + "'"); // Saída: Nome: ''
 
 // ===== VERSÃO CORRIGIDA =====
 System.out.print("Idade: ");
-int idade = teclado.nextInt();
+idade = teclado.nextInt();
 teclado.nextLine();              // 🧹 limpa o \\n
 
 System.out.print("Nome: ");
-String nome = teclado.nextLine(); // agora espera o usuário
+nome = teclado.nextLine();       // agora espera o usuário
 
 System.out.println("Nome: " + nome); // Saída: Nome: João Silva`,
       explicacao: 'A primeira versão demonstra o bug: após digitar a idade e Enter, o nextLine() seguinte consome a quebra de linha e não deixa o usuário digitar o nome. A versão corrigida insere um nextLine() extra para limpar o buffer antes da leitura do texto.'

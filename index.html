@@ -10,6 +10,15 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
   <style>
+    /* Garante alinhamento uniforme nos blocos de código */
+  pre > code[class*="language-"] {
+    display: block;
+    padding: 0 !important;
+    margin: 0 !important;
+    tab-size: 4;
+    -moz-tab-size: 4;
+  }
+
     .tela-oculta { display: none !important; }
     body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
     .seta-acordeao { transition: transform 0.3s ease; }
