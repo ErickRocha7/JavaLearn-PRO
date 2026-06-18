@@ -1,17 +1,4 @@
 const ContentRenderer = {
-  PALAVRAS_CHAVE: new Set([
-    'abstract', 'assert', 'boolean', 'break', 'byte', 'case', 'catch', 'char',
-    'class', 'const', 'continue', 'default', 'do', 'double', 'else', 'enum',
-    'extends', 'final', 'finally', 'float', 'for', 'goto', 'if', 'implements',
-    'import', 'instanceof', 'int', 'interface', 'long', 'native', 'new',
-    'package', 'private', 'protected', 'public', 'return', 'short', 'static',
-    'strictfp', 'super', 'switch', 'synchronized', 'this', 'throw', 'throws',
-    'transient', 'try', 'void', 'volatile', 'while', 'true', 'false', 'null'
-  ]),
-  TIPOS_COMUNS: new Set([
-    'String', 'System', 'Integer', 'Double', 'Boolean', 'Object', 'Math',
-    'ArrayList', 'HashMap', 'Scanner', 'Exception', 'RuntimeException'
-  ]),
 
   encontrarDadosSubcapitulo(subcapituloId) {
     for (const cap of cursoJavaEstrutura) {
@@ -19,38 +6,6 @@ const ContentRenderer = {
       if (sub) return { ...sub, capituloTitulo: cap.titulo, capituloId: cap.id };
     }
     return null;
-  },
-
-  formatarCodigoJava(codigo) {
-    if (!codigo) return '';
-    let html = codigo
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;');
-
-    html = html.replace(/"([^"\\]|\\.)*"/g, match => `<span class="monokai-string">${match}</span>`);
-    html = html.replace(/(\/\/.*$)/gm, match => `<span class="monokai-comment">${match}</span>`);
-    html = html.replace(/(\/\*[\s\S]*?\*\/)/g, match => `<span class="monokai-comment">${match}</span>`);
-    this.PALAVRAS_CHAVE.forEach(kw => {
-      const regex = new RegExp(`\\b${kw}\\b`, 'g');
-      html = html.replace(regex, match => `<span class="monokai-keyword">${match}</span>`);
-    });
-    const placeholder = '___SPAN___';
-    const spans = [];
-    html = html.replace(/<span\b[^>]*>.*?<\/span>/g, match => {
-      spans.push(match);
-      return placeholder;
-    });
-    html = html.replace(/\b([A-Z][a-zA-Z0-9_]*)\b/g, (match, p1) => {
-      if (this.TIPOS_COMUNS.has(p1)) {
-        return `<span class="monokai-type">${match}</span>`;
-      }
-      return match;
-    });
-    html = html.replace(/\b(\d+\.?\d*)\b/g, match => `<span class="monokai-number">${match}</span>`);
-    let i = 0;
-    html = html.replace(new RegExp(placeholder, 'g'), () => spans[i++] || '');
-    return html;
   },
 
   renderizarDiagramaCondicional(tituloCondicao, blocoVerdadeiro, blocoFalso) {
@@ -80,7 +35,6 @@ const ContentRenderer = {
     </div>`;
   },
 
-  // Calcula dinamicamente o total de subcapítulos
   _calcularTotalAulas() {
     let total = 0;
     for (const cap of cursoJavaEstrutura) {
@@ -89,9 +43,6 @@ const ContentRenderer = {
     return total;
   },
 
-  /**
-   * Renderiza uma imagem responsiva com legenda
-   */
   renderizarImagem(imgData) {
     if (!imgData || !imgData.src) return '';
     const { src, alt, legenda } = imgData;
@@ -115,10 +66,8 @@ const ContentRenderer = {
       return;
     }
 
-    // Buscar conteúdo real da aula (se já foi criado)
     const conteudoReal = window.conteudoAulas?.[subcapituloId];
 
-    // Calcular progresso
     let numeroAula = 1;
     for (const cap of cursoJavaEstrutura) {
       for (const sub of cap.subcapitulos) {
@@ -130,7 +79,6 @@ const ContentRenderer = {
     const totalAulas = this._calcularTotalAulas();
     const percentual = Math.round((Store.obterProgresso().length / totalAulas) * 100);
 
-    // Construir cabeçalho comum
     let html = `
       <article class="max-w-none">
         <div class="flex items-baseline justify-between mb-4">
@@ -145,8 +93,6 @@ const ContentRenderer = {
     `;
 
     if (conteudoReal) {
-      // ---- Conteúdo real da aula ----
-
       // 1. Teoria
       if (conteudoReal.teoria) {
         html += `<div class="prose prose-slate max-w-none mb-8">${conteudoReal.teoria}</div>`;
@@ -157,7 +103,7 @@ const ContentRenderer = {
         html += conteudoReal.imagens.map(img => this.renderizarImagem(img)).join('');
       }
 
-      // 3. Exemplos de código
+      // 3. Exemplos de código (agora usando Prism.js)
       if (conteudoReal.exemplos && conteudoReal.exemplos.length > 0) {
         html += `<h3 class="text-xl font-bold text-slate-800 mt-8 mb-4">Exemplos</h3>`;
         conteudoReal.exemplos.forEach((ex, idx) => {
@@ -165,14 +111,14 @@ const ContentRenderer = {
             <div class="mb-6">
               <h4 class="text-lg font-semibold text-slate-700 mb-2">${ex.titulo || `Exemplo ${idx + 1}`}</h4>
               <pre class="rounded-lg p-4 overflow-x-auto my-3 text-sm font-mono leading-relaxed" style="background-color: #272822;">
-                <code>${this.formatarCodigoJava(ex.codigo)}</code>
+                <code class="language-java">${ex.codigo}</code>
               </pre>
               ${ex.explicacao ? `<p class="text-sm text-slate-600">${ex.explicacao}</p>` : ''}
             </div>`;
         });
       }
 
-      // 4. Diagrama condicional (se definido na aula)
+      // 4. Diagrama condicional
       if (conteudoReal.diagramaCondicional) {
         const d = conteudoReal.diagramaCondicional;
         html += this.renderizarDiagramaCondicional(d.condicao, d.blocoTrue, d.blocoFalse);
@@ -212,5 +158,8 @@ const ContentRenderer = {
 
     html += `</article>`;
     container.innerHTML = html;
+
+    // Aplica o Prism.js a todos os blocos de código recém-inseridos
+    Prism.highlightAllUnder(container);
   }
 };
