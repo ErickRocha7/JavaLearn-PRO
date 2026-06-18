@@ -1,210 +1,197 @@
 // Arquivo: data/aulas/cap-04/sub-4-3.js
-// Aula 4.3 – Operadores de Incremento e Decremento
+// Aula 4.3 – Comandos break e continue
 
 window.conteudoAulas = window.conteudoAulas || {};
 
 window.conteudoAulas['sub-4-3'] = {
   teoria: `
-    <h2 class="text-2xl font-bold text-slate-800 mb-4">Operadores de Incremento e Decremento</h2>
-    <p class="lesson-text text-slate-500 italic">A matemática da contagem e a linha do tempo invisível do processador</p>
+    <h2 class="text-2xl font-bold text-slate-800 mb-4">Comandos break e continue</h2>
+    <p class="lesson-text text-slate-500 italic">Intervenções cirúrgicas no fluxo dos laços de repetição</p>
 
     <h3 class="section-title">Introdução</h3>
-    <p class="lesson-text">No desenvolvimento de software, lidar com números e contagens é uma tarefa que se repete a cada milissegundo. Seja para computar o número de curtidas em uma foto de rede social, calcular os segundos restantes de um cronômetro ou passar para a próxima página de um catálogo virtual, o computador precisa constantemente fazer uma conta matemática básica: <strong>somar 1</strong> ou <strong>subtrair 1</strong> de algum valor armazenado na memória.</p>
-    <p class="lesson-text">Como essa operação de somar ou subtrair uma única unidade é a mais comum em todo o universo da computação, os criadores da linguagem Java decidiram criar um atalho sintático para facilitar a vida dos programadores. Em vez de obrigar o desenvolvedor a escrever uma linha longa e repetitiva como <code class="code-inline">quantidade = quantidade + 1</code>, eles inventaram os <strong>Operadores de Incremento e Decremento</strong>.</p>
-    <p class="lesson-text">O operador de incremento é representado por dois sinais de mais colados (<code class="code-inline">++</code>), e sua única função é somar 1 ao valor atual de uma variável. O operador de decremento é representado por dois sinais de menos colados (<code class="code-inline">--</code>), e sua única missão é subtrair 1 de uma variável. No entanto, o Java esconde uma <strong>armadilha temporal</strong> fascinante sobre o momento exato em que essa conta matemática acontece. Dependendo de onde você posiciona esses sinais — se antes ou depois do nome da variável —, o computador mudará completamente a sua ordem de prioridade na linha do tempo da execução do código.</p>
+    <p class="lesson-text">No universo do desenvolvimento de software, os laços de repetição — como o <code class="code-inline">while</code> e o <code class="code-inline">for</code> — funcionam como esteiras automatizadas de uma fábrica ou como trens de passageiros que seguem um trilho circular pré‑programado. O trem parte da estação inicial, dá o número planejado de voltas na pista e para somente quando atinge a estação final de segurança.</p>
+    <p class="lesson-text">No entanto, no mundo real da engenharia de software, o fluxo dos dados é dinâmico e imprevisível. Às vezes, eventos inesperados acontecem no meio do caminho: uma peça quebra na esteira, um passageiro puxa o freio de emergência do trem ou um dado prioritário surge do nada, exigindo uma mudança instantânea de planos.</p>
+    <p class="lesson-text">Para dar aos programadores o poder de intervir diretamente no comportamento dessas esteiras repetitivas sem precisar esperar o ciclo terminar naturalmente, os criadores da linguagem Java inventaram duas ferramentas de controle de tráfego conhecidas como <strong>comandos de desvio abrupto</strong>: o <code class="code-inline">break</code> (interromper/quebrar) e o <code class="code-inline">continue</code> (continuar/saltar).</p>
+    <p class="lesson-text">Nesta aula, vamos explorar detalhadamente como esses dois comandos funcionam como verdadeiros <strong>botões de intervenção cirúrgica</strong> na linha do tempo de um algoritmo. Entender a fundo essas ferramentas significa dominar a arte de abrir exceções no fluxo do tempo do computador, compreendendo também os cuidados éticos e de organização que você deve adotar para não transformar o seu código em uma armadilha confusa.</p>
 
     <h3 class="section-title">Fundamentos</h3>
-    <p class="lesson-text">Antes de explorar os formatos prefixado e pós‑fixado, vamos recordar dois conceitos essenciais.</p>
+    <p class="lesson-text">Antes de explorar os comandos <code class="code-inline">break</code> e <code class="code-inline">continue</code>, vamos recordar dois conceitos que serão a base para entender o impacto dessas ferramentas.</p>
 
-    <h4 class="subsection-title">1. Variáveis e atribuição</h4>
-    <p class="lesson-text">Uma variável é um espaço na memória RAM rotulado com um nome. A operação <code class="code-inline">x = x + 1</code> significa: "pegue o valor atual de <code class="code-inline">x</code>, some 1 e guarde o resultado de volta em <code class="code-inline">x</code>". Os operadores <code class="code-inline">++</code> e <code class="code-inline">--</code> são atalhos para essa operação tão frequente.</p>
+    <h4 class="subsection-title">1. Laços de repetição e fluxo circular</h4>
+    <p class="lesson-text">Os laços <code class="code-inline">while</code>, <code class="code-inline">do...while</code> e <code class="code-inline">for</code> criam pistas circulares de execução. O computador entra no bloco, executa as linhas de cima para baixo, atinge a chave de fechamento <code class="code-inline">}</code> e retorna ao topo para reavaliar a condição. Esse ciclo se repete até que a condição de parada se torne falsa.</p>
 
-    <h4 class="subsection-title">2. Linhas de código como sequências de micro‑operações</h4>
-    <p class="lesson-text">O computador não lê uma linha inteira de uma só vez. Internamente, ele a divide em uma sequência de micro‑operações executadas em uma ordem rígida de milissegundos. Entender essa ordem é a chave para compreender por que a posição do <code class="code-inline">++</code> altera o resultado.</p>
+    <h4 class="subsection-title">2. Previsibilidade e legibilidade do código</h4>
+    <p class="lesson-text">A beleza do Java está na sua <strong>previsibilidade sequencial</strong>. Quando um programador lê um laço, ele confia que a esteira só vai parar quando a condição do cabeçalho se tornar falsa. Qualquer coisa que quebre essa expectativa exige uma justificativa técnica muito clara.</p>
 
     <h3 class="section-title">Desenvolvimento</h3>
 
-    <h4 class="subsection-title">1. O Formato Prefixado (<code class="code-inline">++var</code>, <code class="code-inline">--var</code>): A Urgência Matemática</h4>
-    <p class="lesson-text">No formato <strong>prefixado</strong>, os operadores <code class="code-inline">++</code> ou <code class="code-inline">--</code> são escritos colados <strong>à esquerda</strong> do nome da variável, como em <code class="code-inline">++contador</code> ou <code class="code-inline">--estoque</code>. A palavra‑chave para descrever o comportamento do computador aqui é <strong>imediatismo</strong>.</p>
-    <p class="lesson-text">Quando o processador do Java vem descendo pela estrada do código e bate de frente com um operador prefixado, ele assume uma postura de <strong>máxima urgência</strong>. O computador interrompe qualquer outra tarefa que estivesse fazendo naquela linha para resolver a matemática em primeiro lugar. Ele enxerga os sinais na frente da variável como uma ordem que diz: <em>"Pare tudo! Atualize o valor desta variável agora mesmo. Só depois que ela estiver de cara nova, use esse novo valor para resolver o resto da linha."</em></p>
+    <h4 class="subsection-title">1. O Comando <code class="code-inline">break</code>: A Saída Forçada e o Freio de Emergência</h4>
+    <p class="lesson-text">O comando <code class="code-inline">break</code> traduz‑se literalmente para o português como "quebrar" ou "interromper". No ecossistema do Java, a sua função é exatamente essa: atuar como um <strong>freio de emergência definitivo</strong>. Quando o processador do computador vem executando um laço de repetição em círculos e, no meio de uma rodada, bate de frente com a palavra‑chave <code class="code-inline">break;</code>, ele sofre um choque de parada imediata.</p>
+    <p class="lesson-text">O Java <strong>interrompe a execução daquela linha no mesmo milissegundo</strong>, desliga o motor do loop inteiramente e ejeta o fluxo de dados para fora das chaves protetoras <code class="code-inline">{ }</code>, depositando o programa na primeira linha de código que existir após o encerramento da estrutura de repetição. Quando o <code class="code-inline">break</code> é acionado, não importa se o loop estava programado para rodar um milhão de vezes e estava apenas na sua primeira volta; a engrenagem de repetição é sumariamente destruída e o ciclo se encerra para sempre.</p>
 
     <div class="callout-analogy">
-      <strong>Analogia do Cobrador de Ônibus:</strong> Um passageiro entra no transporte público e se depara com a catraca. O cobrador adota uma postura puramente prefixada: ele estende a mão e exige que o passageiro pague a tarifa (<code class="code-inline">++dinheiroDoCaixa</code>) <strong>antes</strong> de liberar a passagem para que a pessoa possa caminhar até o fundo do veículo. A ação de atualizar o caixa tem prioridade absoluta e acontece antes de qualquer outra movimentação.
+      <strong>Analogia do Trem de Parque de Diversões:</strong> Imagine um brinquedo programado para dar exatamente 10 voltas ao redor do parque. No meio da terceira volta, uma criança deixa cair um urso de pelúcia nos trilhos. O maquinista puxa com força a <strong>alavanca do freio de emergência</strong>. O trem para de forma abrupta — ele não espera dar as outras 7 voltas restantes. O passeio é cancelado e os passageiros descem ali mesmo. O <code class="code-inline">break</code> no código Java faz exatamente o papel dessa alavanca de freio.
     </div>
 
-    <p class="lesson-text"><strong>O passo a passo na memória:</strong></p>
-    <ol class="list-decimal ml-6 space-y-1 mb-4">
-      <li><strong>A Criação do Cenário:</strong> O programador declara <code class="code-inline">int idade = 20;</code>. O Java cria uma gaveta virtual etiquetada como <code class="code-inline">idade</code> e deposita o número 20.</li>
-      <li><strong>A Colisão com o Comando:</strong> Na linha seguinte, o código diz <code class="code-inline">System.out.println(++idade);</code>. O objetivo final é desenhar um valor na tela.</li>
-      <li><strong>A Interrupção pelo Operador Prefixado:</strong> O processador encontra primeiro os sinais <code class="code-inline">++</code>. O comando de impressão entra em estado de espera.</li>
-      <li><strong>A Atualização Urgente:</strong> O Java viaja até a memória, soma 1 ao número 20 e transforma‑o em <strong>21</strong>. O valor antigo deixa de existir.</li>
-      <li><strong>A Retomada do Fluxo:</strong> Com a variável atualizada, o Java entrega o valor fresquinho (21) para o comando de impressão. A tela exibe <strong>21</strong>.</li>
-    </ol>
+    <p class="lesson-text"><strong>O uso mais nobre do <code class="code-inline">break</code> — Mecanismos de Busca:</strong> Imagine que você está desenvolvendo o sistema de um banco de dados com 10.000 clientes cadastrados. O usuário digita um CPF na barra de pesquisa, e o programa inicia um laço para varrer a lista inteira, linha por linha. O computador checa o cliente 1, o 2, o 3... e, ao chegar no cliente número 50, encontra o CPF procurado.</p>
+    <p class="lesson-text">Faz algum sentido obrigar o computador a gastar energia processando as outras 9.950 linhas restantes se o cliente já foi encontrado? <strong>Obviamente não.</strong> O programador insere uma condição inteligente: <em>"Se encontrar o cliente, execute <code class="code-inline">break;</code>"</em>. O Java localiza o alvo, bate de frente com o freio, desliga a busca instantaneamente e exibe o resultado na tela, poupando a memória do servidor e otimizando o tempo de resposta.</p>
 
-    <p class="lesson-text">O formato prefixado é a ferramenta definitiva quando o algoritmo exige que a mudança aconteça de maneira <strong>soberana e imediata</strong>, alterando a verdade factual da memória antes que qualquer outra engrenagem do software faça uma leitura daqueles dados.</p>
+    <pre><code class="language-java">for (int i = 0; i < 10000; i++) {
+    if (listaClientes[i].cpf.equals(cpfProcurado)) {
+        System.out.println("Cliente encontrado na posição: " + i);
+        break; // Interrompe a busca imediatamente
+    }
+}</code></pre>
 
-    <h4 class="subsection-title">2. O Formato Pós‑fixado (<code class="code-inline">var++</code>, <code class="code-inline">var--</code>): A Calma Posterior</h4>
-    <p class="lesson-text">No formato <strong>pós‑fixado</strong>, os sinais <code class="code-inline">++</code> ou <code class="code-inline">--</code> são escritos <strong>à direita</strong> do nome da variável, como em <code class="code-inline">contador++</code> ou <code class="code-inline">estoque--</code>. Este formato adota uma filosofia de <strong>paciência e adiamento</strong>.</p>
-    <p class="lesson-text">Quando o Java se depara com o formato pós‑fixado, ele enxerga os sinais após o nome como um bilhete que diz: <em>"Use o valor atual que esta variável possui agora para resolver todas as obrigações desta linha. Não altere nada na memória por enquanto. Deixe para fazer a conta de somar ou subtrair 1 apenas no último instante, quando você estiver pronto para passar para o próximo comando."</em></p>
+    <h4 class="subsection-title">2. O Comando <code class="code-inline">continue</code>: O Salto Direto e o Ignorar de Etapas</h4>
+    <p class="lesson-text">O comando <code class="code-inline">continue</code>, apesar de ter um nome que sugere continuidade, funciona de uma forma muito mais sutil e frequentemente confunde os estudantes iniciantes. No Java, o <code class="code-inline">continue</code> <strong>não significa</strong> "continue fazendo o que você está fazendo agora". Ele funciona, na verdade, como um comando de <strong>"pular a etapa atual e avançar direto para a próxima rodada"</strong>.</p>
+    <p class="lesson-text">Quando o processador está executando as linhas internas de um laço e esbarra na palavra‑chave <code class="code-inline">continue;</code>, ele interrompe imediatamente o restante das tarefas <strong>daquela volta específica</strong>. O Java ignora todas as linhas de código escritas abaixo do <code class="code-inline">continue</code> dentro daquele bloco, mas — em vez de quebrar e fechar o loop como o <code class="code-inline">break</code> faria — o <code class="code-inline">continue</code> funciona como um <strong>teletransporte elástico</strong> que joga o fluxo do programa direto de volta para o topo da estrutura, acionando a guarita de checagem para iniciar a próxima rodada do ciclo. Ele <strong>cancela o presente, mas preserva o futuro</strong> do loop.</p>
 
     <div class="callout-analogy">
-      <strong>Analogia do Posto de Combustível com Comanda:</strong> Você entra na loja de conveniência, pega um refrigerante, e o funcionário anota na sua comanda. Você bebe o refrigerante ali mesmo — usufrui do produto com o valor atual da comanda (ainda pendente). Só quando você decide ir embora e passa no caixa é que o sistema altera o saldo da sua conta, efetuando a cobrança. O impacto financeiro foi <strong>adiado para o último instante</strong> da interação.
+      <strong>Analogia do Inspetor de Fábrica de Maçãs:</strong> Um funcionário trabalha ao lado de uma esteira rolante. Seu protocolo é: pegar a maçã, aplicar cera de brilho, colar adesivo da marca e depositar na caixa. De repente, ele pega uma maçã <strong>podre e estragada</strong>. Ele não desliga os motores da fábrica inteira (seria o <code class="code-inline">break</code>). Ele simplesmente <strong>descarta a fruta estragada na lixeira</strong> e cruza os braços, recusando‑se a gastar cera ou adesivo com aquela unidade. Em seguida, estende as mãos para agarrar a próxima maçã saudável que já vem vindo na esteira. O fluxo de produção continuou, mas a fruta defeituosa teve suas etapas canceladas.
     </div>
 
-    <p class="lesson-text"><strong>O passo a passo na memória (o descompasso temporal):</strong></p>
-    <ol class="list-decimal ml-6 space-y-1 mb-4">
-      <li><strong>O Ponto de Partida:</strong> O programador declara <code class="code-inline">int idade = 20;</code>. A gaveta <code class="code-inline">idade</code> guarda o número 20.</li>
-      <li><strong>A Leitura do Comando:</strong> Na linha seguinte, <code class="code-inline">System.out.println(idade++);</code>. O objetivo é exibir um valor na tela.</li>
-      <li><strong>O Reconhecimento do Adiamento:</strong> O Java encontra primeiro a palavra <code class="code-inline">idade</code> e depois os sinais <code class="code-inline">++</code>. Como estão à direita, ele <strong>ignora temporariamente</strong> os sinais.</li>
-      <li><strong>A Entrega do Valor Atual:</strong> O processador vai até a memória, pega o valor <strong>20</strong> e o entrega para o comando de impressão. A tela exibe <strong>20</strong>. Se um estudante olhar para o monitor, jurará que nada mudou.</li>
-      <li><strong>A Promessa Cumprida no Último Milissegundo:</strong> Após enviar o 20 para a tela, e antes de saltar para a próxima linha, o Java vai até a memória, soma 1 e atualiza <code class="code-inline">idade</code> para <strong>21</strong>. A tela mostra 20, mas a memória guarda 21.</li>
-    </ol>
+    <p class="lesson-text"><strong>O uso prático do <code class="code-inline">continue</code> — Filtrar Dados Indesejados:</strong> Imagine um sistema de folha de pagamento que precisa conceder um abono de Natal para todos os funcionários, <strong>exceto para os diretores</strong>, que já possuem salários muito altos. O laço percorre a lista de empregados. Para os assistentes e analistas, o bônus é calculado e depositado normalmente. Quando o Java encontra um funcionário com cargo de "Diretor", o código executa:</p>
 
-    <p class="lesson-text">Esse <strong>descolamento temporal</strong> entre o momento de usar a informação e o momento de atualizá‑la é a maior armadilha do formato pós‑fixado. O formato pós‑fixado é a ferramenta de escolha quando o algoritmo exige que o sistema utilize a informação original como ponto de referência para resolver o presente, deixando a atualização matemática acontecer de forma sutil e silenciosa como preparação para o futuro.</p>
+    <pre><code class="language-java">for (Funcionario f : listaFuncionarios) {
+    if (f.cargo.equals("Diretor")) {
+        continue; // Pula o diretor e vai para o próximo funcionário
+    }
+    // Estas linhas só executam para NÃO diretores
+    double bonus = f.salario * 0.10;
+    f.depositar(bonus);
+}</code></pre>
+
+    <p class="lesson-text">Ao ler <code class="code-inline">continue;</code>, o computador cancela o cálculo do bônus e o depósito bancário para aquele diretor específico, e salta instantaneamente de volta ao topo para processar o próximo funcionário da lista. O <code class="code-inline">continue</code> limpou o fluxo, ignorando os dados irrelevantes sem interromper a automação global.</p>
+
+    <h4 class="subsection-title">3. Cuidados Vitais: O Impacto Oculto na Legibilidade do Código</h4>
+    <p class="lesson-text">Embora o <code class="code-inline">break</code> e o <code class="code-inline">continue</code> pareçam ferramentas espetaculares e extremamente tentadoras para resolver problemas de fluxo de forma rápida, a engenharia de software faz um <strong>alerta severo</strong>: use‑os com extrema moderação e parcimônia.</p>
+    <p class="lesson-text">No mercado profissional, o uso excessivo desses comandos de desvio abrupto é visto com ressalvas e pode dar origem ao que os desenvolvedores chamam de <strong>"código espaguete"</strong> — um emaranhado de linhas tão confuso e cheio de saltos imprevisíveis que se torna impossível de ler ou dar manutenção.</p>
+
+    <p class="lesson-text"><strong>Por que o abuso é perigoso?</strong></p>
+    <ul class="topic-list space-y-2 mb-4">
+      <li><strong>Destrói a previsibilidade:</strong> O leitor do código confia que o loop só vai parar quando a condição do cabeçalho se tornar falsa. Se você espalha dezenas de <code class="code-inline">break</code> e <code class="code-inline">continue</code> escondidos em <code class="code-inline">if</code>s profundos, essa confiança é quebrada.</li>
+      <li><strong>Dificulta a depuração:</strong> Rastrear o caminho que um dado percorre na memória torna‑se uma tarefa exaustiva quando há saltos imprevisíveis no meio do caminho.</li>
+      <li><strong>Aumenta o risco de bugs:</strong> Um código com muitos desvios abruptos esconde erros que nenhum testador consegue prever, pois o fluxo real é diferente do fluxo aparente.</li>
+    </ul>
 
     <div class="callout-warning">
-      <strong>Regra de ouro da sobrevivência:</strong> Jamais misture operadores de incremento ou decremento no meio de fórmulas matemáticas complexas. Se você precisa aumentar o valor de uma variável e usar esse valor em outra conta, faça isso em <strong>linhas separadas</strong>. O bom código é aquele que qualquer pessoa consegue prever o resultado sem precisar decifrar enigmas temporais do processador.
+      <strong>Regra de ouro da legibilidade:</strong> Trate o <code class="code-inline">break</code> e o <code class="code-inline">continue</code> como <strong>remédios controlados de tarja preta</strong>. Na dose exata e no momento cirúrgico correto (como interromper uma varredura em um banco de dados massivo após encontrar o alvo, ou pular um dado inválido em um processamento em lote), eles funcionam como milagres de desempenho. Em excesso, intoxicam a lógica do algoritmo e tornam o software incompreensível.
     </div>
-
-    <h4 class="subsection-title">3. Aplicações Práticas: Os Motores dos Contadores e Loops</h4>
-    <p class="lesson-text">Quando o operador de incremento ou decremento é escrito de forma <strong>completamente isolada</strong> em sua própria linha de código — como em <code class="code-inline">contador++;</code> —, a disputa temporal entre prefixado e pós‑fixado <strong>deixa de existir</strong>. O Java lê a linha, faz a atualização na memória e, como não há mais nada para resolver ali, passa para a instrução seguinte com a variável já perfeitamente modificada. De forma isolada, a escolha entre <code class="code-inline">contador++</code> ou <code class="code-inline">++contador</code> torna‑se apenas uma questão de preferência visual.</p>
-
-    <p class="lesson-text">A verdadeira magia desses operadores revela‑se quando eles atuam como os <strong>motores invisíveis dos Laços de Repetição</strong>. Por definição, um computador é uma máquina obediente, mas sem discernimento próprio. Se você ordenar que ele repita uma tarefa, ele continuará repetindo para sempre — o temido <strong>Loop Infinito</strong>. Para impedir esse travamento, todo laço precisa de uma estratégia de saída, e é aí que entra o <strong>contador</strong>.</p>
-
-    <div class="callout-analogy">
-      <strong>Analogia do Contador de Passageiros Mecânico:</strong> Imagine um comissário de bordo na porta do avião com um dispositivo metálico de mão. O visor marca 44. Cada passageiro que entra representa uma <strong>iteração</strong>. O funcionário pressiona o botão — um clique audível — e o visor salta para 45. No Java, o operador <code class="code-inline">++</code> faz exatamente o papel desse polegar humano pressionando o botão. Ele é o <strong>combustível</strong> que empurra o loop para frente.
-    </div>
-
-    <p class="lesson-text"><strong>O ciclo de vida de um contador em um laço:</strong></p>
-    <ol class="list-decimal ml-6 space-y-1 mb-4">
-      <li><strong>O Contador Zerado:</strong> <code class="code-inline">int contador = 0;</code> — o visor marca 0.</li>
-      <li><strong>A Validação de Entrada:</strong> O laço pergunta: "O contador é menor que 10?". Como 0 é menor que 10, sinal verde.</li>
-      <li><strong>A Execução do Trabalho:</strong> O computador realiza a tarefa planejada (ex.: imprimir uma linha).</li>
-      <li><strong>O Clique do Motor:</strong> <code class="code-inline">contador++;</code> — o visor salta para 1.</li>
-      <li><strong>O Retorno Elástico:</strong> O fluxo volta ao topo e refaz a pergunta. Esse ciclo se repete até que o contador atinja 10, a condição se torne falsa e o laço se encerre com segurança.</li>
-    </ol>
-
-    <p class="lesson-text">Dominar os operadores de incremento e decremento e compreender como eles alteram e guardam os dados na linha do tempo dá ao estudante o entendimento técnico definitivo sobre os bastidores da automação digital. O aluno deixa de enxergar o código como um texto estático e passa a visualizá‑lo como uma <strong>máquina viva</strong>, cujos motores matemáticos giram com total precisão para dar vida a sistemas inteligentes, estáveis e escaláveis.</p>
 
     <h3 class="section-title">Detalhamento Técnico</h3>
     <ul class="topic-list space-y-2 mb-4">
-      <li><strong>Precedência dos operadores:</strong> Os operadores <code class="code-inline">++</code> e <code class="code-inline">--</code> têm uma das precedências mais altas em Java, sendo avaliados antes da maioria dos outros operadores. No entanto, a posição (prefixado ou pós‑fixado) afeta o <strong>momento</strong> em que a leitura do valor ocorre, e não a ordem de precedência em si.</li>
-      <li><strong>Uso com tipos numéricos:</strong> <code class="code-inline">++</code> e <code class="code-inline">--</code> podem ser aplicados a variáveis de tipos inteiros (<code class="code-inline">int</code>, <code class="code-inline">long</code>, <code class="code-inline">short</code>, <code class="code-inline">byte</code>) e de ponto flutuante (<code class="code-inline">float</code>, <code class="code-inline">double</code>). Também funcionam com <code class="code-inline">char</code>, pois caracteres são representados internamente como números.</li>
-      <li><strong>Não use em expressões complexas:</strong> Embora o Java permita escrever <code class="code-inline">int y = ++x * 2 + x--;</code>, esse tipo de código é considerado péssima prática. É ilegível, propenso a erros e depende de regras obscuras de ordem de avaliação.</li>
-      <li><strong>Efeito em variáveis <code class="code-inline">final</code>:</strong> Variáveis declaradas como <code class="code-inline">final</code> (constantes) não podem ser alteradas depois de inicializadas. Portanto, não podem ser usadas com operadores de incremento ou decremento — o compilador emitirá um erro.</li>
-      <li><strong>Operadores de incremento e decremento em expressões:</strong> Quando usados em uma expressão mais complexa, a ordem de avaliação pode ser sutil. Na dúvida, separe em linhas distintas para garantir a clareza.</li>
+      <li><strong><code class="code-inline">break</code> em laços aninhados:</strong> O <code class="code-inline">break</code> interrompe apenas o laço <strong>mais interno</strong> onde está contido. Para sair de múltiplos níveis de aninhamento, é necessário usar <code class="code-inline">break</code> com rótulos (<em>labeled break</em>), um recurso mais avançado.</li>
+      <li><strong><code class="code-inline">continue</code> em laços <code class="code-inline">for</code>:</strong> Quando usado dentro de um <code class="code-inline">for</code>, o <code class="code-inline">continue</code> salta para a <strong>terceira parte</strong> do cabeçalho (o incremento/decremento) antes de reavaliar a condição. Isso garante que a variável de controle seja atualizada mesmo quando a iteração é pulada.</li>
+      <li><strong><code class="code-inline">continue</code> em laços <code class="code-inline">while</code>:</strong> É preciso cuidado redobrado: se o <code class="code-inline">continue</code> for colocado <strong>antes</strong> da atualização da variável de controle, o laço pode se tornar infinito, pois a variável nunca será modificada naquela iteração.</li>
+      <li><strong>Alternativas aos desvios abruptos:</strong> Muitas vezes, uma condição bem estruturada com <code class="code-inline">if/else</code> ou uma cláusula de guarda pode substituir o <code class="code-inline">continue</code> com mais clareza. O <code class="code-inline">break</code> pode ser evitado incorporando a condição de saída ao teste do cabeçalho do laço.</li>
     </ul>
 
     <h3 class="section-title">Aplicações Práticas</h3>
     <ul class="topic-list space-y-2 mb-4">
-      <li><strong>Contadores de eventos:</strong> Sistemas de catraca, contagem de curtidas, visualizações de páginas, tentativas de login.</li>
-      <li><strong>Controle de inventário:</strong> Carrinhos de compra em e‑commerce, controle de estoque em tempo real, ajuste de quantidade de itens.</li>
-      <li><strong>Motores de laços de repetição:</strong> A cada iteração de um <code class="code-inline">while</code> ou <code class="code-inline">for</code>, o incremento move o programa em direção à condição de parada.</li>
-      <li><strong>Animações e temporizadores:</strong> Atualização de coordenadas em jogos (<code class="code-inline">x++;</code> para mover um personagem) e cronômetros.</li>
-      <li><strong>Estatísticas em tempo real:</strong> Incrementar contadores de vendas, usuários online, ou qualquer métrica que precise ser atualizada constantemente.</li>
+      <li><strong>Busca e localização em listas:</strong> Percorrer uma lista de registros e usar <code class="code-inline">break</code> para interromper a busca assim que o item for encontrado.</li>
+      <li><strong>Filtragem de dados em processamento em lote:</strong> Usar <code class="code-inline">continue</code> para pular registros inválidos ou que não atendem a critérios específicos.</li>
+      <li><strong>Validação de entrada em menus:</strong> Usar <code class="code-inline">continue</code> para ignorar opções inválidas e voltar ao topo do menu.</li>
+      <li><strong>Saída antecipada de loops de monitoramento:</strong> Em sistemas de tempo real, usar <code class="code-inline">break</code> para encerrar um loop de monitoramento quando um sinal de desligamento é detectado.</li>
     </ul>
 
     <h3 class="section-title">Conclusão</h3>
-    <p class="lesson-text">Os operadores de incremento e decremento são atalhos poderosos que economizam digitação e deixam o código mais expressivo — desde que usados com sabedoria. A posição do sinal — <strong>prefixado</strong> (urgente, imediato) ou <strong>pós‑fixado</strong> (paciente, adiado) — determina se o valor da variável é atualizado antes ou depois de ser usado na linha atual. Ignorar essa diferença pode gerar bugs silenciosos e difíceis de rastrear.</p>
-    <p class="lesson-text">A regra de ouro profissional é clara: <strong>use o incremento e o decremento em linhas isoladas</strong>, onde não haja outras variáveis disputando o valor na mesma instrução. Quando você faz isso, a diferença entre <code class="code-inline">++var</code> e <code class="code-inline">var++</code> desaparece, e o código se torna seguro, previsível e pronto para alimentar os laços de repetição que formam o coração de todo sistema automatizado.</p>
+    <p class="lesson-text">Os comandos <code class="code-inline">break</code> e <code class="code-inline">continue</code> são ferramentas de intervenção cirúrgica que dão ao programador o poder de alterar o fluxo natural dos laços de repetição. O <code class="code-inline">break</code> atua como um <strong>freio de emergência</strong> — interrompe o loop inteiro imediatamente e ejeta o programa para fora das chaves. O <code class="code-inline">continue</code> atua como um <strong>salto de etapa</strong> — cancela o restante da iteração atual e teletransporta o fluxo de volta ao topo para a próxima rodada.</p>
+    <p class="lesson-text">No entanto, com grandes poderes vêm grandes responsabilidades. O uso excessivo desses comandos destrói a previsibilidade do código e pode transformá‑lo em um "código espaguete" impossível de manter. A regra de ouro é tratá‑los como remédios fortes: na dose certa, salvam o desempenho do sistema; em excesso, intoxicam a lógica do algoritmo. Dominar esse equilíbrio é o que separa o programador amador do engenheiro de software profissional.</p>
   `,
 
   imagens: [],
 
   exemplos: [
     {
-      titulo: 'Diferença entre operador prefixado e pós-fixado',
-      codigo: `public class IncrementoPrefixadoPosfixado {
+      titulo: 'Uso do break para interromper uma busca',
+      codigo: `public class ExemploBreak {
     public static void main(String[] args) {
-        // Demonstrando a diferença de tempo entre prefixado e pós-fixado
-        int a = 10;
-        int b = ++a;  // prefixado: a vira 11, depois b recebe 11
-        System.out.println("Prefixado: a = " + a + ", b = " + b);
+        int[] numeros = {10, 25, 33, 47, 59, 62, 78, 81, 94};
+        int alvo = 47;
+        int posicao = -1;
 
-        int c = 10;
-        int d = c++;  // pós-fixado: d recebe 10, depois c vira 11
-        System.out.println("Pós-fixado: c = " + c + ", d = " + d);
+        for (int i = 0; i < numeros.length; i++) {
+            System.out.println("Checando posição " + i + ": " + numeros[i]);
+            if (numeros[i] == alvo) {
+                posicao = i;
+                System.out.println("Alvo encontrado!");
+                break; // Interrompe a busca imediatamente
+            }
+        }
 
-        // Operador de decremento segue a mesma lógica
-        int e = 10;
-        int f = --e;  // prefixado: e vira 9, depois f recebe 9
-        System.out.println("Decremento prefixado: e = " + e + ", f = " + f);
-
-        int g = 10;
-        int h = g--;  // pós-fixado: h recebe 10, depois g vira 9
-        System.out.println("Decremento pós-fixado: g = " + g + ", h = " + h);
-    }
-}`,
-      explicacao: 'O programa demonstra que o prefixado altera a variável antes de usá-la, enquanto o pós-fixado usa o valor antigo primeiro e só atualiza depois. O decremento (--) segue exatamente a mesma regra.'
-    },
-    {
-      titulo: 'Uso seguro: incremento em linhas isoladas e em loops',
-      codigo: `public class ContadorSeguro {
-    public static void main(String[] args) {
-        // Forma segura e profissional: operador em linha isolada
-        int contador = 0;
-        contador++;  // 1
-        contador++;  // 2
-        contador++;  // 3
-        System.out.println("Contador após 3 incrementos: " + contador);
-
-        // Em linha isolada, prefixado e pós-fixado produzem o MESMO resultado
-        int x = 10;
-        x++;   // x = 11
-        ++x;   // x = 12
-        System.out.println("x após x++ e ++x em linhas separadas: " + x);
-
-        // Uso como motor de um laço for
-        System.out.println("\\nContagem com for:");
-        for (int i = 1; i <= 5; i++) {
-            System.out.println("i = " + i);
+        if (posicao != -1) {
+            System.out.println("Número " + alvo + " está na posição " + posicao);
+        } else {
+            System.out.println("Número não encontrado.");
         }
     }
 }`,
-      explicacao: 'Quando o operador está sozinho em uma linha, a diferença entre prefixado e pós-fixado desaparece. O código fica limpo, previsível e livre de bugs. O exemplo também mostra o uso do incremento como motor de um laço for.'
+      explicacao: 'O programa percorre um array de números procurando o valor 47. Assim que encontra na posição 3, o break interrompe o laço for — as posições restantes (59, 62, 78, 81, 94) nunca são verificadas, economizando processamento.'
+    },
+    {
+      titulo: 'Uso do continue para filtrar dados',
+      codigo: `public class ExemploContinue {
+    public static void main(String[] args) {
+        int[] numeros = {12, 15, 18, 21, 24, 27, 30, 33, 36};
+
+        System.out.println("=== Exibindo apenas números pares ===");
+        for (int i = 0; i < numeros.length; i++) {
+            // Se for ímpar, pula para o próximo
+            if (numeros[i] % 2 != 0) {
+                continue; // Ignora o restante desta iteração
+            }
+            // Esta linha só executa para números pares
+            System.out.println("Número par encontrado: " + numeros[i]);
+        }
+
+        System.out.println("\\n=== Processamento encerrado ===");
+    }
+}`,
+      explicacao: 'O laço for percorre todos os números do array, mas o continue faz com que os números ímpares sejam pulados. Apenas os pares (12, 18, 24, 30, 36) chegam à linha de impressão. O loop não é interrompido — apenas as iterações indesejadas têm o restante de suas linhas canceladas.'
     }
   ],
 
   exercicios: [
     {
-      pergunta: 'Qual o valor final de "a" e "b" após a execução do código? int a = 5; int b = ++a;',
+      pergunta: 'O que acontece quando o comando break é executado dentro de um laço for?',
       alternativas: [
-        'a = 5, b = 5',
-        'a = 6, b = 6',
-        'a = 6, b = 5'
+        'O laço pula para a próxima iteração.',
+        'O laço é imediatamente encerrado, e o programa continua na linha após o fechamento das chaves.',
+        'O programa é totalmente encerrado.'
       ],
       respostaCorreta: 1,
-      explicacao: 'O operador prefixado (++a) incrementa a variável a para 6 e, em seguida, usa esse valor atualizado para atribuir a b. Portanto, ambos terminam valendo 6.'
+      explicacao: 'O break interrompe o laço instantaneamente. O fluxo é ejetado para fora das chaves e o programa continua executando a partir da primeira linha após o término da estrutura de repetição.'
     },
     {
-      pergunta: 'Qual o valor final de "x" e "y" após a execução do código? int x = 5; int y = x++;',
+      pergunta: 'Qual é o comportamento do comando continue dentro de um laço?',
       alternativas: [
-        'x = 5, y = 5',
-        'x = 6, y = 5',
-        'x = 6, y = 6'
+        'Ele encerra o laço completamente.',
+        'Ele interrompe a iteração atual e faz o laço pular imediatamente para a próxima verificação da condição.',
+        'Ele repete a mesma iteração do início.'
       ],
       respostaCorreta: 1,
-      explicacao: 'O operador pós-fixado (x++) faz com que y receba o valor atual de x (5). Somente depois da atribuição, x é incrementado para 6.'
+      explicacao: 'O continue cancela o restante das linhas da iteração atual e teletransporta o fluxo de volta ao topo do laço para iniciar a próxima rodada. O laço em si não é encerrado.'
     },
     {
-      pergunta: 'Por que é recomendado usar operadores de incremento/decremento em linhas isoladas?',
+      pergunta: 'Por que o uso excessivo de break e continue é considerado má prática?',
       alternativas: [
-        'Porque o Java não permite usá-los dentro de expressões.',
-        'Para evitar bugs causados pela diferença temporal entre prefixado e pós-fixado, tornando o código mais legível e seguro.',
-        'Porque o desempenho é melhor em linhas isoladas.'
+        'Porque eles deixam o programa mais lento.',
+        'Porque eles prejudicam a legibilidade, quebrando a previsibilidade do fluxo e dificultando a manutenção do código.',
+        'Porque o Java não permite mais de 3 usos por laço.'
       ],
       respostaCorreta: 1,
-      explicacao: 'Em linhas isoladas, a diferença entre prefixado e pós-fixado desaparece, pois não há outras variáveis ou expressões competindo pelo valor. Isso elimina bugs sutis e torna o código mais claro.'
+      explicacao: 'O abuso de break e continue transforma o código em "código espaguete" — cheio de saltos imprevisíveis que dificultam a leitura e a depuração. A previsibilidade é um pilar da legibilidade, e esses comandos devem ser usados com moderação.'
     },
     {
-      pergunta: 'Qual é a função principal dos operadores de incremento e decremento em laços de repetição?',
+      pergunta: 'Em um laço for, para onde o continue envia o fluxo de execução?',
       alternativas: [
-        'Servir como condição de parada do laço.',
-        'Atuar como combustível, alterando a variável de controle a cada iteração para que o laço possa progredir e eventualmente terminar.',
-        'Substituir completamente o bloco de código do laço.'
+        'Para a primeira linha do bloco do laço.',
+        'Para a terceira parte do cabeçalho do for (o incremento/decremento), antes de reavaliar a condição.',
+        'Para fora das chaves do laço.'
       ],
       respostaCorreta: 1,
-      explicacao: 'O incremento/decremento modifica a variável de controle a cada rodada, empurrando o laço em direção à condição de parada. Sem ele, a variável nunca mudaria e o laço seria infinito.'
+      explicacao: 'No laço for, o continue salta diretamente para a terceira parte do cabeçalho (a atualização, como i++), garantindo que a variável de controle seja incrementada antes de a condição ser reavaliada para a próxima iteração.'
     }
   ]
 };
